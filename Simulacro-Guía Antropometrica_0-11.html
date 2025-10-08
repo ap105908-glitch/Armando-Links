@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GUÍA TÉCNICA PARA LA VALORACIÓN NUTRICIONAL ANTROPOMETRICA DE LA NIRA Y EL NIÑO DE 0 A 11 AÑOS</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 800px;
+            width: 100%;
+            padding: 40px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .splash-screen {
+            text-align: center;
+        }
+
+        .splash-screen h1 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+        }
+
+        .instructions {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 30px 0;
+            text-align: left;
+        }
+
+        .instructions h2 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .instructions ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .instructions li {
+            padding: 10px 0;
+            color: #555;
+            font-size: 1.05em;
+        }
+
+        .instructions li:before {
+            content: "✓ ";
+            color: #667eea;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2em;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .quiz-screen {
+            display: none;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .timer {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .timer.warning {
+            color: #f44336;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        .progress {
+            font-size: 1.1em;
+            color: #666;
+        }
+
+        .question-container {
+            margin: 30px 0;
+        }
+
+        .question-text {
+            font-size: 1.3em;
+            color: #333;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .option-btn {
+            background: white;
+            border: 2px solid #e0e0e0;
+            padding: 18px 25px;
+            font-size: 1.1em;
+            text-align: left;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            border-color: #667eea;
+            background: #f8f9ff;
+            transform: translateX(5px);
+        }
+
+        .option-btn:disabled {
+            cursor: not-allowed;
+        }
+
+        .option-btn.correct {
+            background: #4caf50;
+            border-color: #4caf50;
+            color: white;
+            font-weight: bold;
+        }
+
+        .option-btn.incorrect {
+            background: #f44336;
+            border-color: #f44336;
+            color: white;
+            font-weight: bold;
+        }
+
+        /* Este bloque es el ÚNICO que fuerza la alineación horizontal */
+        .quiz-navigation-buttons {
+            display: flex;       
+            gap: 380px;           
+            width: 100%;
+
+            /* 🚨 ESTO ES LO QUE LOS DIVIDE PERMANENTEMENTE 🚨 */
+            justify-content: space-between;
+
+            margin-top: 30px;
+            
+            /* 🚨 ESTO ES LO QUE LOS DIVIDE PERMANENTEMENTE 🚨 */
+            justify-content: space-between;
+        }
+
+            #backToStartBtn {
+
+            /* 🚨 ESTO LO EMPUJA A LA DERECHA 🚨 */
+
+            margin-left: auto;
+
+        }
+
+        .continue-btn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 35px;
+            font-size: 1.1em;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .continue-btn:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+        }
+
+        .results-screen {
+            display: none;
+            text-align: center;
+        }
+
+        .results-screen h1 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+        }
+
+        .score-display {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            margin: 30px 0;
+        }
+
+        .score-display .big-score {
+            font-size: 4em;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .score-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .score-item {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+        }
+
+        .score-item h3 {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+
+        .score-item p {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Splash Screen -->
+        <div class="splash-screen" id="splashScreen">
+            <h1>SIMULACRO - GUÍA TÉCNICA PARA LA VALORACIÓN NUTRICIONAL ANTROPOMETRICA DE LA NIÑA Y EL NIÑO DE 0 A 11 AÑOS </h1>
+            <div class="instructions">
+                <h2>Instrucciones</h2>
+                <ul>
+                    <li>El cuestionario consta de <strong>20 preguntas</strong> aleatoreas de un banco de 80 preguntas</li>
+                    <li>Tiempo límite: <strong>15 minutos</strong></li>
+                    <li>Las respuestas correctas se mostrarán en <strong style="color: #4caf50;">verde</strong></li>
+                    <li>Las respuestas incorrectas se mostrarán en <strong style="color: #f44336;">rojo</strong></li>
+                    <li>Si tu respuesta es incorrecta, se mostrará la respuesta correcta en verde</li>
+                    <li>Haz clic en "Continuar" para avanzar a la siguiente pregunta</li>
+                </ul>
+            </div>
+            <button class="btn-primary" onclick="startQuiz()">Iniciar Simulacro</button>
+        </div>
+
+        <!-- Quiz Screen -->
+        <div class="quiz-screen" id="quizScreen">
+            <div class="header">
+                <div class="timer" id="timer">15:00</div>
+                <div class="progress" id="progress">Pregunta 1 de 20</div>
+            </div>
+            <div class="question-container">
+                <div class="question-text" id="questionText"></div>
+                <div class="options" id="optionsContainer"></div>
+
+            <div class="quiz-navigation-buttons">
+                <button class="continue-btn" id="continueBtn" onclick="nextQuestion()">Continuar</button> 
+                <button class="continue-btn" id="backToStartBtn" onclick="backToStart()">Volver al inicio</button>        
+            </div>
+        </div>
+
+        <!-- Results Screen -->
+        <div class="results-screen" id="resultsScreen">
+            <h1>¡Cuestionario Finalizado!</h1>
+            <div class="score-display">
+                <div>Tu Puntuación</div>
+                <div class="big-score" id="finalScore">0/40</div>
+                <div id="percentage">0%</div>
+            </div>
+            <div class="score-details">
+                <div class="score-item">
+                    <h3>CORRECTAS</h3>
+                    <p id="correctCount" style="color: #4caf50;">0</p>
+                </div>
+                <div class="score-item">
+                    <h3>INCORRECTAS</h3>
+                    <p id="incorrectCount" style="color: #f44336;">0</p>
+                </div>
+                <div class="score-item">
+                    <h3>TIEMPO USADO</h3>
+                    <p id="timeUsed">0:00</p>
+                </div>
+            </div>
+            <button class="btn-primary" onclick="location.reload()">Reintentar</button>
+        </div>
+    </div>
+
+    <script>
+        // Base de datos de preguntas (80 preguntas completas)
+        const allQuestions = [
+    {
+        "Nº": "1",
+        "Pregunta": "Según la técnica de medición del peso en balanza pediátrica mecánica, ¿qué ajuste debe realizar el antropometrista si el extremo común de las varillas no se mantiene en el centro de la abertura?",
+        "Opción A": "Regresar ambas pesas a cero.",
+        "Opción B": "Mover la pesa mayor a la marca de 1 kg.",
+        "Opción C": "Realizar ajustes con el tornillo calibrador.",
+        "Opción D": "Solicitar el cambio de la balanza.",
+        "Letra Correcta": "C"
+    },
+    {
+        "Nº": "2",
+        "Pregunta": "Antes de iniciar el pesaje en la balanza pediátrica mecánica, ¿dónde se deben colocar ambas pesas según el procedimiento técnico?",
+        "Opción A": "En la marca de 1 kg.",
+        "Opción B": "En “0” (cero).",
+        "Opción C": "En el centro del platillo.",
+        "Opción D": "En el extremo derecho de las varillas.",
+        "Letra Correcta": "B"
+    },
+    {
+        "Nº": "3",
+        "Pregunta": "¿Qué condición debe asegurar el/la antropometrista en un niño menor de 2 años al realizar la medición de la longitud?",
+        "Opción A": "Que esté dormido para facilitar el estiramiento.",
+        "Opción B": "Que esté despierto.",
+        "Opción C": "Que esté vestido con ropa ligera.",
+        "Opción D": "Que esté tranquilo, incluso si está llorando.",
+        "Letra Correcta": "B"
+    },
+    {
+        "Nº": "4",
+        "Pregunta": "Al medir la longitud en un niño menor de 2 años, ¿cuál es la función de la mano izquierda del antropometrista después de bajar los pies sobre el infantómetro?",
+        "Opción A": "Sujetar el tobillo y la planta del pie.",
+        "Opción B": "Presionar ligeramente las rodillas contra el infantómetro para evitar que flexione las rodillas.",
+        "Opción C": "Asegurar el Plano de Frankfurt en la cabeza.",
+        "Opción D": "Mantener la cadera elevada.",
+        "Letra Correcta": "B"
+    },
+    {
+        "Nº": "5",
+        "Pregunta": "Para la medición de la estatura en niños de 2 años a más, ¿cómo se asegura el **Plano de Frankfurt**?",
+        "Opción A": "Alineando el mentón con el tablero.",
+        "Opción B": "Asegurando que la línea de visión de la niña y del niño y la del antropometrista sea paralela al piso.",
+        "Opción C": "Pidiendo al niño que mire hacia arriba.",
+        "Opción D": "Fijando la protuberancia occipital.",
+        "Letra Correcta": "B"
+    },
+    {
+        "Nº": "6",
+        "Pregunta": "¿Cuáles son los 5 puntos de contacto que deben estar pegados al tablero del tallímetro en la medición de la estatura?",
+        "Opción A": "Cabeza, hombros, caderas, codos y talones.",
+        "Opción B": "Talones, pantorrillas, glúteos, omóplatos y cabeza.",
+        "Opción C": "Pies, rodillas, abdomen, espalda y cabeza.",
+        "Opción D": "Pies, glúteos, hombros, cuello y talones.",
+        "Letra Correcta": "B"
+    },
+    {
+        "Nº": "7",
+        "Pregunta": "En la medición de la estatura, ¿por qué el antropometrista utiliza la muñeca izquierda en \"posición cobra\" para que el antebrazo presione el abdomen/tórax del niño?",
+        "Opción A": "Para asegurar el Plano de Frankfurt.",
+        "Opción B": "Para inmovilizar el tórax.",
+        "Opción C": "Para inmovilizar las rodillas.",
+        "Opción D": "Para facilitar el registro de la medida.",
+        "Letra Correcta": "B"
+    },
+    {
+        "Nº": "8",
+        "Pregunta": "Según la técnica de medición del Perímetro Cefálico, ¿qué se debe registrar si la medida cae entre dos milímetros?",
+        "Opción A": "El milímetro superior.",
+        "Opción B": "El milímetro inferior.",
+        "Opción C": "El promedio de ambos.",
+        "Opción D": "Solo el centímetro sin milímetros.",
+        "Letra Correcta": "B"
+    },
+    {
+        "Nº": "9",
+        "Pregunta": "¿Por dónde debe pasar el borde inferior de la cinta métrica para alcanzar el perímetro máximo en la medición del Perímetro Cefálico?",
+        "Opción A": "Por debajo de las cejas y sobre el pabellón auricular.",
+        "Opción B": "Justo por encima del pabellón auricular, por el arco superciliar y la prominencia occipital.",
+        "Opción C": "Alrededor del mentón.",
+        "Opción D": "Solo por la línea de implantación del cabello.",
+        "Letra Correcta": "B"
+    },
+    {
+        "Nº": "10",
+        "Pregunta": "¿En qué momento del ciclo respiratorio debe realizarse la lectura de la medición del **Perímetro Torácico** en neonatos?",
+        "Opción A": "Al inicio de la inspiración.",
+        "Opción B": "Al final del evento espiratorio.",
+        "Opción C": "Al final del evento inspiratorio.",
+        "Opción D": "En el punto medio entre inspiración y espiración.",
+        "Letra Correcta": "B"
+    },
+    {
+        "Nº": "11",
+        "Pregunta": "¿En qué momento del ciclo respiratorio debe realizarse la lectura de la medición del **Perímetro Abdominal** en niños de 5 a 11 años?",
+        "Opción A": "Durante la inspiración profunda.",
+        "Opción B": "Al inicio de la exhalación normal.",
+        "Opción C": "Al final de la exhalación normal (momento en que la persona expulsa el aire).",
+        "Opción D": "En el punto medio entre inspiración y exhalación.",
+        "Letra Correcta": "C"
+    },
+    {
+        "Nº": "12",
+        "Pregunta": "¿Qué se utiliza específicamente para trazar tenuemente los puntos referenciales en la piel para la medición del Perímetro Abdominal?",
+        "Opción A": "Un marcador permanente.",
+        "Opción B": "Un lápiz de ceja de color oscuro con tajador incorporado.",
+        "Opción C": "Un bolígrafo de punta fina.",
+        "Opción D": "Un hisopo con tinta.",
+        "Letra Correcta": "B"
+    },
+    {
+        "Nº": "13",
+        "Pregunta": "Para la medición del Perímetro Abdominal, ¿cuál es la distancia de separación recomendada para los pies de niñas y niños?",
+        "Opción A": "Los pies deben estar juntos y pegados.",
+        "Opción B": "5 a 10 cm.",
+        "Opción C": "15 a 20 cm.",
+        "Opción D": "30 cm o más.",
+        "Letra Correcta": "C"
+    },
+    {
+        "Nº": "14",
+        "Pregunta": "¿Entre qué dos puntos referenciales se establece la distancia media para la marcación del Perímetro Abdominal?",
+        "Opción A": "La cicatriz umbilical y el borde costal inferior.",
+        "Opción B": "El punto medio entre la cresta iliaca superior y el reborde inferior de la última costilla.",
+        "Opción C": "El punto más prominente del abdomen.",
+        "Opción D": "El borde costal y la pelvis.",
+        "Letra Correcta": "B"
+    },
+    {
+        "Nº": "15",
+        "Pregunta": "Para la medición de la longitud o estatura, si la medida cae entre dos líneas de 0.1 cm, ¿a qué aproximación se debe registrar?",
+        "Opción A": "Al 0.1 cm inmediato superior.",
+        "Opción B": "Al 0.1 cm inmediato inferior.",
+        "Opción C": "Se registra el 0.5 cm intermedio.",
+        "Opción D": "Se redondea al número entero más cercano.",
+        "Letra Correcta": "B"
+    },
+    {
+        "Nº": "16",
+        "Pregunta": "¿Cuál es la aproximación correcta para el registro de la longitud o estatura en la historia clínica?",
+        "Opción A": "En milímetros con aproximación a 0.5 cm.",
+        "Opción B": "En centímetros con una aproximación de 0,1 cm.",
+        "Opción C": "En pulgadas.",
+        "Opción D": "En centímetros sin decimales.",
+        "Letra Correcta": "B"
+    },
+    {
+        "Nº": "17",
+        "Pregunta": "¿Cuál es la clasificación del indicador Peso para la Talla (P/T) para un niño menor de 5 años si resulta **mayor a 3 DE**?",
+        "Opción A": "Sobrepeso.",
+        "Opción B": "Riesgo de Obesidad.",
+        "Opción C": "Obesidad.",
+        "Opción D": "Alto.",
+        "Letra Correcta": "C"
+    },
+    {
+        "Nº": "18",
+        "Pregunta": "Si el indicador Talla para la Edad (T/E) de una niña menor de 5 años se encuentra **<-3 DE**, ¿cómo se clasifica su estado nutricional a largo plazo?",
+        "Opción A": "Talla baja.",
+        "Opción B": "Desnutrición crónica.",
+        "Opción C": "Talla baja severa.",
+        "Opción D": "Alto.",
+        "Letra Correcta": "C"
+    },
+    {
+        "Nº": "19",
+        "Pregunta": "¿Cuál es el indicador antropométrico principal para identificar niñas y niños **adelgazados/emaciados** (desnutrición aguda) o con sobrepeso y obesidad en menores de 5 años?",
+        "Opción A": "Peso para la Edad (P/E).",
+        "Opción B": "Talla para la Edad (T/E).",
+        "Opción C": "Perímetro Cefálico para la Edad (PC/E).",
+        "Opción D": "Peso para la Talla (P/T).",
+        "Letra Correcta": "D"
+    },
+    {
+        "Nº": "20",
+        "Pregunta": "¿A qué clasificación corresponde un niño de 5 a 11 años si su IMC/E se encuentra **<-3 DE**?",
+        "Opción A": "Delgadez.",
+        "Opción B": "Normal.",
+        "Opción C": "Riesgo de delgadez.",
+        "Opción D": "Delgadez severa.",
+        "Letra Correcta": "D"
+    },
+    {
+        "Nº": "21",
+        "Pregunta": "¿Qué rango del indicador IMC/E define la clasificación de **Delgadez** para niñas y niños de 5 a 11 años?",
+        "Opción A": "Mayor de 2 DE.",
+        "Opción B": "Entre <-2 DE y -3 DE.",
+        "Opción C": "Entre 1 DE y 2 DE.",
+        "Opción D": "Menor de -3 DE.",
+        "Letra Correcta": "B"
+    },
+    {
+        "Nº": "22",
+        "Pregunta": "En el contexto de la valoración nutricional, la **Malnutrición** incluye:",
+        "Opción A": "Solo la deficiencia de energía y nutrientes.",
+        "Opción B": "Solo el sobrepeso y la obesidad.",
+        "Opción C": "La deficiencia o exceso de energía, macronutrientes y/o micronutrientes, incluyendo delgadez, sobrepeso y obesidad.",
+        "Opción D": "Únicamente el bajo peso severo.",
+        "Letra Correcta": "C"
+    },
+    {
+        "Nº": "23",
+        "Pregunta": "¿Cuál es la clasificación del indicador Peso para la Edad (P/E) para un niño menor de 5 años con un valor **> 2 DE**?",
+        "Opción A": "Bajo peso.",
+        "Opción B": "Sobrepeso.",
+        "Opción C": "Obesidad.",
+        "Opción D": "Normal.",
+        "Letra Correcta": "B"
+    },
+    {
+        "Nº": "24",
+        "Pregunta": "¿Qué indica el indicador Talla para la Edad (T/E) cuando se encuentra en la clasificación de **Talla Baja** (entre <-2 DE y -3 DE) en niños menores de 5 años?",
+        "Opción A": "Desnutrición aguda.",
+        "Opción B": "Indicador del estado nutricional a largo plazo.",
+        "Opción C": "Sobrepeso.",
+        "Opción D": "Alto.",
+        "Letra Correcta": "B"
+    },
+    {
+        "Nº": "25",
+        "Pregunta": "¿Qué clasificación del indicador IMC/E define el **Sobrepeso** en niñas y niños de 5 a 11 años?",
+        "Opción A": "Entre >1 DE y 2 DE.",
+        "Opción B": "Mayor de 2 DE.",
+        "Opción C": "Entre -2 DE y -3 DE.",
+        "Opción D": "Normal.",
+        "Letra Correcta": "A"
+    },
+    {
+        "Nº": "26",
+        "Pregunta": "¿Qué indicador se utiliza para valorar el **crecimiento intrauterino** de la neonata o neonato?",
+        "Opción A": "Peso al nacer.",
+        "Opción B": "Longitud al nacer.",
+        "Opción C": "Peso para la edad gestacional (P/EG).",
+        "Opción D": "Perímetro Torácico al nacer (PT/N).",
+        "Letra Correcta": "C"
+    },
+    {
+        "Nº": "27",
+        "Pregunta": "¿Cuál es la clasificación para una neonata a término con un Perímetro Torácico al nacer **< 29.0 cm**?",
+        "Opción A": "Bajo riesgo morbi-mortalidad.",
+        "Opción B": "Riesgo morbi-mortalidad.",
+        "Opción C": "Alto riesgo morbi-mortalidad.",
+        "Opción D": "Peso bajo al nacer.",
+        "Letra Correcta": "C"
+    },
+    {
+        "Nº": "28",
+        "Pregunta": "¿Cuál es el propósito del indicador Perímetro Abdominal para la Edad (PAB/E) en niños de 5 a 11 años?",
+        "Opción A": "Evaluar el crecimiento lineal.",
+        "Opción B": "Evaluar los niveles de delgadez.",
+        "Opción C": "Determinar el riesgo de enfermedades crónicas no transmisibles.",
+        "Opción D": "Identificar la desnutrición crónica.",
+        "Letra Correcta": "C"
+    },
+    {
+        "Nº": "29",
+        "Pregunta": "Si un niño menor de 5 años presenta un P/T Normal (entre 2 DE y -2 DE), pero su P/E está clasificado como Bajo peso (<-2 DE), ¿cuál es la conclusión clínica de la guía?",
+        "Opción A": "Se considera malnutrido por P/E.",
+        "Opción B": "No se considera malnutrido cualquiera sea su P/E.",
+        "Opción C": "Debe ser intervenido por riesgo de desnutrición.",
+        "Opción D": "Se diagnostica desnutrición global.",
+        "Letra Correcta": "B"
+    },
+    {
+        "Nº": "30",
+        "Pregunta": "¿Qué riesgo de malnutrición se define operacionalmente cuando la tendencia de la curva P/E o P/T en niños menores de 5 años muestra **aplanamiento desde -1 DE**?",
+        "Opción A": "Riesgo de sobrepeso.",
+        "Opción B": "Riesgo de desnutrición.",
+        "Opción C": "Obesidad.",
+        "Opción D": "Bajo peso severo.",
+        "Letra Correcta": "B"
+    },
+    {
+        "Nº": "31",
+        "Pregunta": "¿Cuál es el signo de alerta o criterio de riesgo de **Talla Baja** en niños de 5 a 11 años relacionado con el incremento de talla en 6 meses?",
+        "Opción A": "Incremento de talla < 5.0 cm en 6 meses.",
+        "Opción B": "Incremento de talla < 2.5 cm en 6 meses.",
+        "Opción C": "Talla no varía en 3 meses.",
+        "Opción D": "IMC/E > 2 DE.",
+        "Letra Correcta": "B"
+    },
+    {
+        "Nº": "32",
+        "Pregunta": "¿Qué riesgo nutricional se define en niños de 5 a 11 años cuando el IMC/E de Normalidad varía en **+1.5 en 6 meses**?",
+        "Opción A": "Riesgo de delgadez.",
+        "Opción B": "Riesgo de obesidad (sobrepeso).",
+        "Opción C": "Delgadez severa.",
+        "Opción D": "Talla alta.",
+        "Letra Correcta": "B"
+    },
+    {
+        "Nº": "33",
+        "Pregunta": "Un valor de **IMC/E entre > 1 DE a 2 DE** en niños de 5 a 11 años se define operacionalmente como:",
+        "Opción A": "Obesidad.",
+        "Opción B": "Riesgo de obesidad (sobrepeso).",
+        "Opción C": "Delgadez.",
+        "Opción D": "Normal.",
+        "Letra Correcta": "B"
+    },
+    {
+        "Nº": "34",
+        "Pregunta": "Un punto trazado **por debajo de -1 DE** en la curva Peso para la Talla (P/T) de un niño menor de 5 años indica un:",
+        "Opción A": "Bajo peso severo.",
+        "Opción B": "Bajo peso/Emaciado.",
+        "Opción C": "Posible riesgo de bajo peso.",
+        "Opción D": "Riesgo de talla baja.",
+        "Letra Correcta": "C"
+    },
+    {
+        "Nº": "35",
+        "Pregunta": "En la curva P/T de un niño menor de 5 años, una tendencia hacia la línea de puntuación 2 DE muestra un:",
+        "Opción A": "Sobrepeso.",
+        "Opción B": "Obesidad inminente.",
+        "Opción C": "Riesgo de sobrepeso.",
+        "Opción D": "Bajo peso.",
+        "Letra Correcta": "C"
+    },
+    {
+        "Nº": "36",
+        "Pregunta": "Si un niño menor de 5 años presenta una curva de crecimiento Peso para la Talla (P/T) que se mantiene **plana** entre dos controles, ¿qué indica este signo de alerta?",
+        "Opción A": "Crecimiento adecuado.",
+        "Opción B": "Riesgo nutricional.",
+        "Opción C": "Ganancia de peso excesiva.",
+        "Opción D": "Recuperación nutricional.",
+        "Letra Correcta": "B"
+    },
+    {
+        "Nº": "37",
+        "Pregunta": "¿Cuál es la indicación de manejo para un niño con P/T y/o P/E aumentado (obesidad/sobrepeso)?",
+        "Opción A": "Orientar hacia la disminución rápida de peso.",
+        "Opción B": "Orientar hacia el mantenimiento o ganancia más lenta del peso, sin disminución como objetivo.",
+        "Opción C": "Orientar hacia la pérdida del 10% del peso en 6 meses.",
+        "Opción D": "Incremento progresivo del peso.",
+        "Letra Correcta": "B"
+    },
+    {
+        "Nº": "38",
+        "Pregunta": "Si un niño menor de 6 meses recibe lactancia materna exclusiva (LME) y presenta P/T **mayor a 2 DE**, ¿debe ser considerado para intervención como sobrepeso/obesidad?",
+        "Opción A": "Sí, debe ser intervenido inmediatamente.",
+        "Opción B": "No, el valor no debe considerarse para intervención como sobrepeso u obesidad en este grupo.",
+        "Opción C": "Solo si supera los +3 DE.",
+        "Opción D": "Se debe cambiar el indicador a P/T.",
+        "Letra Correcta": "B"
+    },
+    {
+        "Nº": "39",
+        "Pregunta": "La clasificación **Bajo peso/Emaciado** en el indicador P/T para menores de 5 años se determina cuando el valor se encuentra en el rango de:",
+        "Opción A": "<-3 DE.",
+        "Opción B": "<-2 DE a -3 DE.",
+        "Opción C": "2 DE a -2 DE.",
+        "Opción D": "> 2 DE.",
+        "Letra Correcta": "B"
+    },
+    {
+        "Nº": "40",
+        "Pregunta": "¿Cuál es la clasificación de **Talla Alta** para el indicador T/E en niños de 5 a 11 años?",
+        "Opción A": "2 DE a -2 DE.",
+        "Opción B": "> 2 DE.",
+        "Opción C": "<-2 DE a -3 DE.",
+        "Opción D": "<-3 DE.",
+        "Letra Correcta": "B"
+    },
+    {
+        "Nº": "41",
+        "Pregunta": "¿Qué se clasifica como **Delgadez severa** en niños de 5 a 11 años según el IMC/E?",
+        "Opción A": "IMC entre <-2 DE y -3 DE.",
+        "Opción B": "IMC < -3 DE.",
+        "Opción C": "IMC > 2 DE.",
+        "Opción D": "IMC entre > 1 DE a 2 DE.",
+        "Letra Correcta": "B"
+    },
+    {
+        "Nº": "42",
+        "Pregunta": "Según la clasificación de P/E en menores de 5 años, el valor **> 3 DE** corresponde a:",
+        "Opción A": "Sobrepeso.",
+        "Opción B": "Riesgo de sobrepeso.",
+        "Opción C": "Obesidad.",
+        "Opción D": "Alto.",
+        "Letra Correcta": "C"
+    },
+    {
+        "Nº": "43",
+        "Pregunta": "¿Qué condición de crecimiento se define como **Crecimiento Inadecuado**?",
+        "Opción A": "Cuando la tendencia de la curva es paralela a las curvas de crecimiento.",
+        "Opción B": "La no ganancia (aplanamiento) o ganancia mínima de longitud o talla, o pérdida o ganancia excesiva de peso.",
+        "Opción C": "Crecimiento que se mantiene en el carril de la mediana.",
+        "Opción D": "Crecimiento lineal adecuado.",
+        "Letra Correcta": "B"
+    },
+    {
+        "Nº": "44",
+        "Pregunta": "¿Cuál es la edad máxima a la que se debe realizar la medición del **Perímetro Cefálico**?",
+        "Opción A": "Hasta los 12 meses.",
+        "Opción B": "Hasta los 24 meses.",
+        "Opción C": "Hasta los 36 meses de edad.",
+        "Opción D": "Hasta los 5 años de edad.",
+        "Letra Correcta": "C"
+    },
+    {
+        "Nº": "45",
+        "Pregunta": "El indicador **Peso para la Edad (P/E)** es útil para detectar cambios nutricionales en el seguimiento longitudinal, preferentemente dentro de los primeros:",
+        "Opción A": "3 meses de vida.",
+        "Opción B": "6 meses de vida.",
+        "Opción C": "12 meses de vida.",
+        "Opción D": "24 meses de vida.",
+        "Letra Correcta": "B"
+    },
+    {
+        "Nº": "46",
+        "Pregunta": "¿Qué riesgo de enfermedad crónica no transmisible determina un Perímetro Abdominal **sobre el percentil 90 (> P90)** en niños de 5 a 11 años?",
+        "Opción A": "Riesgo moderado.",
+        "Opción B": "Riesgo alto.",
+        "Opción C": "Riesgo muy alto de tener enfermedades cardiovasculares y metabólicas.",
+        "Opción D": "Obesidad abdominal.",
+        "Letra Correcta": "C"
+    },
+    {
+        "Nº": "47",
+        "Pregunta": "La función de tarar en la balanza digital de pie debe ser usada solo en casos excepcionales. ¿Cuál es uno de ellos?",
+        "Opción A": "Para todos los niños mayores de 2 años.",
+        "Opción B": "Para niñas y niños muy inquietos o que no permitan ser pesados en la balanza pediátrica.",
+        "Opción C": "Siempre que el peso supere los 20 kg.",
+        "Opción D": "Cuando se mide el peso de la madre y el niño.",
+        "Letra Correcta": "B"
+    },
+    {
+        "Nº": "48",
+        "Pregunta": "¿Qué se debe realizar con la barra medidora de una balanza pediátrica mecánica después de finalizar la medición del peso?",
+        "Opción A": "Asegurarla con cinta.",
+        "Opción B": "Devolverla a la posición de cero para evitar su descalibración.",
+        "Opción C": "Ajustarla con el tornillo calibrador.",
+        "Opción D": "Dejarla en el último peso registrado.",
+        "Letra Correcta": "B"
+    },
+    {
+        "Nº": "49",
+        "Pregunta": "En la medición de la **longitud** en niños menores de 2 años, ¿cuál es la altura sugerida para la mesa donde se ubica el infantómetro?",
+        "Opción A": "Entre 50 a 60 cm.",
+        "Opción B": "Entre 75 a 85 cm.",
+        "Opción C": "Mayor a 90 cm.",
+        "Opción D": "Al ras del piso.",
+        "Letra Correcta": "B"
+    },
+    {
+        "Nº": "50",
+        "Pregunta": "¿Cuál es el número de mediciones de la longitud o estatura que se debe realizar **idealmente** para obtener la medida correcta?",
+        "Opción A": "1 vez.",
+        "Opción B": "2 veces, utilizando la mayor.",
+        "Opción C": "3 veces, siendo la medida correcta el promedio.",
+        "Opción D": "4 veces, para asegurar precisión.",
+        "Letra Correcta": "C"
+    },
+    {
+        "Nº": "51",
+        "Pregunta": "Si la curva Talla para la Edad (T/E) en el intervalo de normalidad (> -2DE a 2DE) muestra un **aplanamiento**, ¿qué riesgo nutricional indica?",
+        "Opción A": "Riesgo de sobrepeso.",
+        "Opción B": "Riesgo de talla baja.",
+        "Opción C": "Bajo peso.",
+        "Opción D": "Talla alta.",
+        "Letra Correcta": "B"
+    },
+    {
+        "Nº": "52",
+        "Pregunta": "¿A qué clasificación corresponde un niño de 5 a 11 años si su IMC/E se encuentra entre **-2 DE y -3 DE**?",
+        "Opción A": "Delgadez severa.",
+        "Opción B": "Delgadez.",
+        "Opción C": "Normal.",
+        "Opción D": "Riesgo de delgadez.",
+        "Letra Correcta": "B"
+    },
+    {
+        "Nº": "53",
+        "Pregunta": "En la medición de la **estatura**, ¿cuál es la posición correcta de los pies?",
+        "Opción A": "Juntos y pegados al zócalo.",
+        "Opción B": "Separados, manteniendo la equidistancia lateral, y los talones pegados al tablero.",
+        "Opción C": "Separados 30 cm con los talones levantados.",
+        "Opción D": "Solo la punta de los pies debe tocar el tablero.",
+        "Letra Correcta": "B"
+    },
+    {
+        "Nº": "54",
+        "Pregunta": "¿Cuál es el significado clínico de un **aplanamiento** en la curva de crecimiento P/E en un niño menor de 5 años?",
+        "Opción A": "Crecimiento adecuado.",
+        "Opción B": "No hay variación de peso con relación al último control, indicando riesgo nutricional.",
+        "Opción C": "Ganancia de peso excesiva.",
+        "Opción D": "Recuperación nutricional.",
+        "Letra Correcta": "B"
+    },
+    {
+        "Nº": "55",
+        "Pregunta": "Un recién nacido a término con una longitud al nacer de **45.0 cm** (Mujer), según el Cuadro 3, se clasifica como:",
+        "Opción A": "Longitud baja severa (<43.6 cm).",
+        "Opción B": "Longitud baja (43.6 - 45.3 cm).",
+        "Opción C": "Longitud adecuada (45.4 - 52.9 cm).",
+        "Opción D": "Longitud alta.",
+        "Letra Correcta": "B"
+    },
+    {
+        "Nº": "56",
+        "Pregunta": "¿Cuál es la clasificación para un neonato (varón) con un Perímetro Cefálico al nacer **> 36.8 cm**?",
+        "Opción A": "Normal.",
+        "Opción B": "Riesgo microcefalia.",
+        "Opción C": "Riesgo macrocefalia.",
+        "Opción D": "Riesgo de obesidad.",
+        "Letra Correcta": "C"
+    },
+    {
+        "Nº": "57",
+        "Pregunta": "¿Qué clasificación se asigna a un recién nacido/a a término con un Peso al Nacer de **1800 gramos** (Cuadro 1)?",
+        "Opción A": "Extremadamente bajo peso al nacer.",
+        "Opción B": "Muy bajo peso al nacer.",
+        "Opción C": "Bajo peso al nacer.",
+        "Opción D": "Normal.",
+        "Letra Correcta": "C"
+    },
+    {
+        "Nº": "58",
+        "Pregunta": "La clasificación **Normal** para el indicador Talla para la Edad (T/E) en niños menores de 5 años se establece cuando el valor se encuentra entre:",
+        "Opción A": "> 3 DE.",
+        "Opción B": "2 DE a -2 DE.",
+        "Opción C": "<-2 DE a -3 DE.",
+        "Opción D": "< -3 DE.",
+        "Letra Correcta": "B"
+    },
+    {
+        "Nº": "59",
+        "Pregunta": "¿Qué riesgo de malnutrición se identifica con una **disminución de la velocidad de ganancia de peso** en relación a su carril en las curvas P/T o P/E?",
+        "Opción A": "Riesgo de sobrepeso.",
+        "Opción B": "Riesgo de bajo peso.",
+        "Opción C": "Obesidad inminente.",
+        "Opción D": "Crecimiento lineal inadecuado.",
+        "Letra Correcta": "B"
+    },
+    {
+        "Nº": "60",
+        "Pregunta": "¿Cuál es la clasificación del indicador Talla para la Edad (T/E) si un niño de 7 años presenta un valor **> 2 DE**?",
+        "Opción A": "Normal.",
+        "Opción B": "Talla baja.",
+        "Opción C": "Talla alta.",
+        "Opción D": "Talla baja severa.",
+        "Letra Correcta": "C"
+    },
+    {
+        "Nº": "61",
+        "Pregunta": "¿Qué riesgo determina un Perímetro Abdominal **sobre el percentil 75 ($\geq$ P75)** en niños de 5 a 11 años?",
+        "Opción A": "Riesgo bajo de enfermedad.",
+        "Opción B": "Riesgo alto de tener enfermedades cardiovasculares y metabólicas.",
+        "Opción C": "Riesgo muy alto de tener ECNT.",
+        "Opción D": "Riesgo de delgadez.",
+        "Letra Correcta": "B"
+    },
+    {
+        "Nº": "62",
+        "Pregunta": "Para asegurar la inmovilización de la pierna en la medición de la longitud, ¿qué acción adicional realiza el antropometrista con su muñeca izquierda?",
+        "Opción A": "Asegura el Plano de Frankfurt.",
+        "Opción B": "Asegura una torsión en la muñeca.",
+        "Opción C": "Aplica presión con el talón.",
+        "Opción D": "Balancea el tobillo.",
+        "Letra Correcta": "B"
+    },
+    {
+        "Nº": "63",
+        "Pregunta": "En la técnica de medición del peso, ¿dónde debe estar ubicada la pesa menor de la balanza pediátrica mecánica antes de mover la pesa mayor?",
+        "Opción A": "En la marca de 1 kg.",
+        "Opción B": "En el centro de la varilla.",
+        "Opción C": "Al extremo izquierdo de la varilla.",
+        "Opción D": "Al extremo derecho de la varilla.",
+        "Letra Correcta": "C"
+    },
+    {
+        "Nº": "64",
+        "Pregunta": "¿Qué riesgo se define operacionalmente en la curva P/T cuando hay **aceleración de la velocidad de ganancia de peso** y alejamiento de la mediana en menores de 5 años?",
+        "Opción A": "Riesgo de desnutrición.",
+        "Opción B": "Riesgo de sobrepeso.",
+        "Opción C": "Obesidad.",
+        "Opción D": "Bajo peso severo.",
+        "Letra Correcta": "B"
+    },
+    {
+        "Nº": "65",
+        "Pregunta": "¿Cuál es la resolución requerida para una balanza pediátrica (mecánica o digital) utilizada en niños menores de 2 años?",
+        "Opción A": "Resolución de 50 g y capacidad de 30 kg.",
+        "Opción B": "Resolución de 10 o 20 g y capacidad máxima de 20 kg.",
+        "Opción C": "Capacidad igual o mayor a 140 kg y resolución de 100 g.",
+        "Opción D": "Resolución de 100 g y capacidad de 20 kg.",
+        "Letra Correcta": "B"
+    },
+    {
+        "Nº": "66",
+        "Pregunta": "El indicador Perímetro Torácico al nacer se utiliza para monitorear:",
+        "Opción A": "La longitud de los huesos.",
+        "Opción B": "La acreción del tejido adiposo.",
+        "Opción C": "El volumen intracraneal.",
+        "Opción D": "La desnutrición aguda.",
+        "Letra Correcta": "B"
+    },
+    {
+        "Nº": "67",
+        "Pregunta": "Según la técnica de medición del Perímetro Abdominal, la cinta métrica abdominal debe bordear los puntos referenciales de medición (puntos medios) por la parte:",
+        "Opción A": "Inferior.",
+        "Opción B": "Superior.",
+        "Opción C": "Central.",
+        "Opción D": "Lateral.",
+        "Letra Correcta": "B"
+    },
+    {
+        "Nº": "68",
+        "Pregunta": "¿Cuál es la clasificación del indicador Peso para la Talla (P/T) para una niña menor de 5 años si se encuentra entre **>2 DE y < 3 DE**?",
+        "Opción A": "Obesidad.",
+        "Opción B": "Sobrepeso.",
+        "Opción C": "Riesgo de sobrepeso.",
+        "Opción D": "Normal.",
+        "Letra Correcta": "B"
+    },
+    {
+        "Nº": "69",
+        "Pregunta": "¿Qué riesgo se define si en niños de 5 a 11 años la **talla no varía entre 2 controles en 6 meses** (T/E)?",
+        "Opción A": "Riesgo de sobrepeso.",
+        "Opción B": "Riesgo de talla baja.",
+        "Opción C": "Delgadez severa.",
+        "Opción D": "Talla alta.",
+        "Letra Correcta": "B"
+    },
+    {
+        "Nº": "70",
+        "Pregunta": "¿Qué significa el valor de **IMC/E entre 1 DE y 2 DE** en niños de 5 a 11 años?",
+        "Opción A": "Riesgo de obesidad (sobrepeso).",
+        "Opción B": "Sobrepeso.",
+        "Opción C": "Delgadez.",
+        "Opción D": "Normal.",
+        "Letra Correcta": "B"
+    },
+    {
+        "Nº": "71",
+        "Pregunta": "¿Cuál es la medida que se toma a niñas y niños de 2 años a más, en posición vertical desde el vértice de la cabeza hasta los talones?",
+        "Opción A": "Longitud.",
+        "Opción B": "Estatura.",
+        "Opción C": "Perímetro Cefálico.",
+        "Opción D": "Talla.",
+        "Letra Correcta": "B"
+    },
+    {
+        "Nº": "72",
+        "Pregunta": "¿Qué indicador se utiliza para clasificar la **Desnutrición** en niños menores de 5 años?",
+        "Opción A": "P/T, P/E o T/E por debajo de -1 DE.",
+        "Opción B": "P/T, P/E o T/E por debajo de -2 DE.",
+        "Opción C": "P/E o P/T entre 1 DE y 2 DE.",
+        "Opción D": "T/E por debajo de -1 DE.",
+        "Letra Correcta": "B"
+    },
+    {
+        "Nº": "73",
+        "Pregunta": "La clasificación **Normal** para el indicador Talla para la Edad (T/E) en niños de 5 a 11 años se establece cuando el valor se encuentra entre:",
+        "Opción A": "> 2 DE.",
+        "Opción B": "2 DE a -2 DE.",
+        "Opción C": "<-2 DE a -3 DE.",
+        "Opción D": "< -3 DE.",
+        "Letra Correcta": "B"
+    },
+    {
+        "Nº": "74",
+        "Pregunta": "¿Qué clasificación se asigna a un neonato (mujer) con Perímetro Cefálico al nacer **< 31.6 cm**?",
+        "Opción A": "Normal.",
+        "Opción B": "Riesgo microcefalia.",
+        "Opción C": "Riesgo macrocefalia.",
+        "Opción D": "Riesgo de bajo peso.",
+        "Letra Correcta": "B"
+    },
+    {
+        "Nº": "75",
+        "Pregunta": "¿Qué indica el indicador **Perímetro Cefálico para la Edad (PC/E)** en los primeros años de vida?",
+        "Opción A": "El crecimiento lineal alcanzado.",
+        "Opción B": "Refleja de manera indirecta el volumen intracraneal y el crecimiento cerebral.",
+        "Opción C": "El riesgo de enfermedades crónicas.",
+        "Opción D": "La acreción del tejido adiposo.",
+        "Letra Correcta": "B"
+    },
+    {
+        "Nº": "76",
+        "Pregunta": "Un **aplanamiento en la curva de crecimiento P/E** en un niño menor de 5 años indica:",
+        "Opción A": "Ganancia de peso excesiva.",
+        "Opción B": "Riesgo nutricional.",
+        "Opción C": "Crecimiento adecuado.",
+        "Opción D": "Recuperación de peso.",
+        "Letra Correcta": "B"
+    },
+    {
+        "Nº": "77",
+        "Pregunta": "¿Qué se clasifica como **Longitud** en la valoración antropométrica?",
+        "Opción A": "La medida en posición vertical para niños de 2 años a más.",
+        "Opción B": "La medida en posición horizontal para niños menores de 2 años.",
+        "Opción C": "La estimación de la masa corporal.",
+        "Opción D": "La estatura de la persona.",
+        "Letra Correcta": "B"
+    },
+    {
+        "Nº": "78",
+        "Pregunta": "Según la técnica de medición del Perímetro Abdominal, ¿cuál es el propósito de utilizar algodón o gasa con aceite para bebé después de la marcación?",
+        "Opción A": "Para desinfectar la zona.",
+        "Opción B": "Para borrar la marcación en la piel, seguida de alcohol gel para limpiar el aceite.",
+        "Opción C": "Para fijar la cinta métrica.",
+        "Opción D": "Para evitar que la cinta se deslice.",
+        "Letra Correcta": "B"
+    },
+    {
+        "Nº": "79",
+        "Pregunta": "¿Qué indicador antropométrico en niños menores de 5 años identifica la desnutrición **pasada o crónica**?",
+        "Opción A": "Peso para la Edad (P/E).",
+        "Opción B": "Peso para la Talla (P/T).",
+        "Opción C": "Talla para la Edad (T/E).",
+        "Opción D": "Perímetro Cefálico para la Edad (PC/E).",
+        "Letra Correcta": "C"
+    },
+    {
+        "Nº": "80",
+        "Pregunta": "Si el crecimiento longitudinal de un niño menor de 5 años **cambia de carril** (P/T o T/E), pero los indicadores siguen en rango Normal (+/- 2 DE), ¿qué indica?",
+        "Opción A": "Crecimiento adecuado.",
+        "Opción B": "Riesgo del crecimiento o crecimiento inadecuado.",
+        "Opción C": "Recuperación nutricional.",
+        "Opción D": "Sobrepeso inminente.",
+        "Letra Correcta": "B"
+    }
+];
+
+        let selectedQuestions = [];
+        let currentQuestionIndex = 0;
+        let correctAnswers = 0;
+        let incorrectAnswers = 0;
+        let timer;
+        let timeRemaining = 900; // 15 minutos en segundos
+        let startTime;
+
+        function shuffleArray(array) {
+            const newArray = [...array];
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+            }
+            return newArray;
+        }
+
+        function startQuiz() {
+            // Seleccionar 20 preguntas aleatorias
+            const shuffled = shuffleArray(allQuestions);
+            selectedQuestions = shuffled.slice(0, Math.min(20, allQuestions.length));
+            
+            // Ocultar splash screen y mostrar quiz
+            document.getElementById('splashScreen').style.display = 'none';
+            document.getElementById('quizScreen').style.display = 'block';
+            
+            // Iniciar temporizador
+            startTime = Date.now();
+            startTimer();
+            
+            // Mostrar primera pregunta
+            showQuestion();
+        }
+
+        function startTimer() {
+            timer = setInterval(() => {
+                timeRemaining--;
+                updateTimerDisplay();
+                
+                if (timeRemaining <= 0) {
+                    clearInterval(timer);
+                    endQuiz();
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeRemaining / 60);
+            const seconds = timeRemaining % 60;
+            const timerElement = document.getElementById('timer');
+            timerElement.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+            
+            // Advertencia si quedan menos de 5 minutos
+            if (timeRemaining <= 300) {
+                timerElement.classList.add('warning');
+            }
+        }
+
+        function showQuestion() {
+            const question = selectedQuestions[currentQuestionIndex];
+            
+            // Actualizar progreso
+            document.getElementById('progress').textContent = 
+                `Pregunta ${currentQuestionIndex + 1} de ${selectedQuestions.length}`;
+            
+            // Mostrar pregunta
+            document.getElementById('questionText').textContent = question.Pregunta;
+            
+            // Crear botones de opciones
+            const optionsContainer = document.getElementById('optionsContainer');
+            optionsContainer.innerHTML = '';
+            
+            const options = ['A', 'B', 'C', 'D'];
+            options.forEach(letter => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.textContent = `${letter}) ${question['Opción ' + letter]}`; // ¡Añadir el acento y la O mayúscula!
+                btn.onclick = () => selectAnswer(letter);
+                optionsContainer.appendChild(btn);
+            });
+            
+            // Ocultar botón continuar
+            document.getElementById('continueBtn').style.display = 'none';
+        }
+
+        function selectAnswer(selectedLetter) {
+            const question = selectedQuestions[currentQuestionIndex];
+            const correctLetter = question['Letra Correcta'];
+            const optionBtns = document.querySelectorAll('.option-btn');
+            
+            // Deshabilitar todos los botones
+            optionBtns.forEach(btn => btn.disabled = true);
+            
+            // Aplicar colores
+            if (selectedLetter === correctLetter) {
+                // Respuesta correcta
+                correctAnswers++;
+                optionBtns.forEach(btn => {
+                    if (btn.textContent.startsWith(selectedLetter)) {
+                        btn.classList.add('correct');
+                    }
+                });
+            } else {
+                // Respuesta incorrecta
+                incorrectAnswers++;
+                optionBtns.forEach(btn => {
+                    if (btn.textContent.startsWith(selectedLetter)) {
+                        btn.classList.add('incorrect');
+                    }
+                    if (btn.textContent.startsWith(correctLetter)) {
+                        btn.classList.add('correct');
+                    }
+                });
+            }
+            
+            // Mostrar botón continuar
+            const continueBtn = document.getElementById('continueBtn');
+            continueBtn.style.display = 'block';
+            
+            // Cambiar texto a "Finalizar" en la última pregunta
+            if (currentQuestionIndex === selectedQuestions.length - 1) {
+                continueBtn.textContent = 'Finalizar';
+            }
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            
+            if (currentQuestionIndex >= selectedQuestions.length) {
+                endQuiz();
+            } else {
+                showQuestion();
+            }
+        }
+
+        function backToStart() {
+        // Esto redirige al usuario a la página de inicio.
+        // **IMPORTANTE:** Reemplaza 'index.html' con la URL correcta de tu inicio.
+        window.location.href = 'Simulacro-Guía Antropometrica_0-11.html'; 
+        
+        // Si tu inicio es la raíz del sitio, usa:
+        // window.location.href = '/'; 
+    }
+        function endQuiz() {
+            clearInterval(timer);
+            
+            // Calcular tiempo usado
+            const timeUsed = 1200 - timeRemaining;
+            const minutesUsed = Math.floor(timeUsed / 60);
+            const secondsUsed = timeUsed % 60;
+            
+            // Ocultar quiz screen y mostrar resultados
+            document.getElementById('quizScreen').style.display = 'none';
+            document.getElementById('resultsScreen').style.display = 'block';
+            
+            // Mostrar resultados
+            const percentage = Math.round((correctAnswers / selectedQuestions.length) * 100);
+            document.getElementById('finalScore').textContent = 
+                `${correctAnswers}/${selectedQuestions.length}`;
+            document.getElementById('percentage').textContent = `${percentage}%`;
+            document.getElementById('correctCount').textContent = correctAnswers;
+            document.getElementById('incorrectCount').textContent = incorrectAnswers;
+            document.getElementById('timeUsed').textContent = 
+                `${minutesUsed}:${secondsUsed.toString().padStart(2, '0')}`;
+        }
+    </script>
+</body>
+
+</html>
