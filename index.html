@@ -258,30 +258,31 @@
     <div class="container">
         <!-- Splash Screen -->
         <div class="splash-screen" id="splashScreen">
-            <h1>Simulacro (NTS213 ANEMIA)</h1>
+            <h1>Simulacro - NTS213 ANEMIA</h1>
             <div class="instructions">
                 <h2>Instrucciones</h2>
                 <ul>
-                    <li>El cuestionario consta de <strong>40 preguntas</strong> seleccionadas aleatoriamente</li>
-                    <li>Tiempo límite: <strong>20 minutos</strong></li>
+                    <li>El cuestionario consta de <strong>20 preguntas</strong> seleccionadas aleatoriamente</li>
+                    <li>Tiempo límite: <strong>15 minutos</strong></li>
                     <li>Las respuestas correctas se mostrarán en <strong style="color: #4caf50;">verde</strong></li>
                     <li>Las respuestas incorrectas se mostrarán en <strong style="color: #f44336;">rojo</strong></li>
                     <li>Si tu respuesta es incorrecta, se mostrará la respuesta correcta en verde</li>
                     <li>Haz clic en "Continuar" para avanzar a la siguiente pregunta</li>
                 </ul>
             </div>
-            <button class="btn-primary" onclick="startQuiz()">Iniciar Cuestionario</button>
+            <button class="btn-primary" onclick="startQuiz()">Iniciar Simulacro</button>
         </div>
 
         <!-- Quiz Screen -->
         <div class="quiz-screen" id="quizScreen">
             <div class="header">
-                <div class="timer" id="timer">20:00</div>
-                <div class="progress" id="progress">Pregunta 1 de 40</div>
+                <div class="timer" id="timer">15:00</div>
+                <div class="progress" id="progress">Pregunta 1 de 20</div>
             </div>
             <div class="question-container">
                 <div class="question-text" id="questionText"></div>
                 <div class="options" id="optionsContainer"></div>
+                <button class="continue-btn" id="backToStartBtn" onclick="backToStart()">Volver al inicio</button>
                 <button class="continue-btn" id="continueBtn" onclick="nextQuestion()">Continuar</button>
             </div>
         </div>
@@ -1802,6 +1803,14 @@
             }
         }
 
+        function backToStart() {
+        // Esto redirige al usuario a la página de inicio.
+        // **IMPORTANTE:** Reemplaza 'index.html' con la URL correcta de tu inicio.
+        window.location.href = 'index.html'; 
+        
+        // Si tu inicio es la raíz del sitio, usa:
+        // window.location.href = '/'; 
+    }
         function endQuiz() {
             clearInterval(timer);
             
@@ -1828,3 +1837,4 @@
 </body>
 
 </html>
+
