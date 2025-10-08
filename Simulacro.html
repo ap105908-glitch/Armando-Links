@@ -1,0 +1,1865 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulacro NTS213 ANEMIA</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 800px;
+            width: 100%;
+            padding: 40px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .splash-screen {
+            text-align: center;
+        }
+
+        .splash-screen h1 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+        }
+
+        .instructions {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 30px 0;
+            text-align: left;
+        }
+
+        .instructions h2 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .instructions ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .instructions li {
+            padding: 10px 0;
+            color: #555;
+            font-size: 1.05em;
+        }
+
+        .instructions li:before {
+            content: "✓ ";
+            color: #667eea;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2em;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .quiz-screen {
+            display: none;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .timer {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .timer.warning {
+            color: #f44336;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        .progress {
+            font-size: 1.1em;
+            color: #666;
+        }
+
+        .question-container {
+            margin: 30px 0;
+        }
+
+        .question-text {
+            font-size: 1.3em;
+            color: #333;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .option-btn {
+            background: white;
+            border: 2px solid #e0e0e0;
+            padding: 18px 25px;
+            font-size: 1.1em;
+            text-align: left;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            border-color: #667eea;
+            background: #f8f9ff;
+            transform: translateX(5px);
+        }
+
+        .option-btn:disabled {
+            cursor: not-allowed;
+        }
+
+        .option-btn.correct {
+            background: #4caf50;
+            border-color: #4caf50;
+            color: white;
+            font-weight: bold;
+        }
+
+        .option-btn.incorrect {
+            background: #f44336;
+            border-color: #f44336;
+            color: white;
+            font-weight: bold;
+        }
+
+        /* Este bloque es el ÚNICO que fuerza la alineación horizontal */
+        .quiz-navigation-buttons {
+            display: flex;       
+            gap: 380px;           
+            width: 100%;
+
+            /* 🚨 ESTO ES LO QUE LOS DIVIDE PERMANENTEMENTE 🚨 */
+            justify-content: space-between;
+
+            margin-top: 30px;
+            
+            /* 🚨 ESTO ES LO QUE LOS DIVIDE PERMANENTEMENTE 🚨 */
+            justify-content: space-between;
+        }
+
+            #backToStartBtn {
+
+            /* 🚨 ESTO LO EMPUJA A LA DERECHA 🚨 */
+
+            margin-left: auto;
+
+        }
+
+        .continue-btn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 35px;
+            font-size: 1.1em;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .continue-btn:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+        }
+
+        .results-screen {
+            display: none;
+            text-align: center;
+        }
+
+        .results-screen h1 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+        }
+
+        .score-display {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            margin: 30px 0;
+        }
+
+        .score-display .big-score {
+            font-size: 4em;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .score-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .score-item {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+        }
+
+        .score-item h3 {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+
+        .score-item p {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Splash Screen -->
+        <div class="splash-screen" id="splashScreen">
+            <h1>Simulacro - NTS213 ANEMIA</h1>
+            <div class="instructions">
+                <h2>Instrucciones</h2>
+                <ul>
+                    <li>El cuestionario consta de <strong>20 preguntas</strong> seleccionadas aleatoriamente</li>
+                    <li>Tiempo límite: <strong>15 minutos</strong></li>
+                    <li>Las respuestas correctas se mostrarán en <strong style="color: #4caf50;">verde</strong></li>
+                    <li>Las respuestas incorrectas se mostrarán en <strong style="color: #f44336;">rojo</strong></li>
+                    <li>Si tu respuesta es incorrecta, se mostrará la respuesta correcta en verde</li>
+                    <li>Haz clic en "Continuar" para avanzar a la siguiente pregunta</li>
+                </ul>
+            </div>
+            <button class="btn-primary" onclick="startQuiz()">Iniciar Simulacro</button>
+        </div>
+
+        <!-- Quiz Screen -->
+        <div class="quiz-screen" id="quizScreen">
+            <div class="header">
+                <div class="timer" id="timer">15:00</div>
+                <div class="progress" id="progress">Pregunta 1 de 20</div>
+            </div>
+            <div class="question-container">
+                <div class="question-text" id="questionText"></div>
+                <div class="options" id="optionsContainer"></div>
+
+            <div class="quiz-navigation-buttons">
+                <button class="continue-btn" id="continueBtn" onclick="nextQuestion()">Continuar</button> 
+                <button class="continue-btn" id="backToStartBtn" onclick="backToStart()">Volver al inicio</button>        
+            </div>
+        </div>
+
+        <!-- Results Screen -->
+        <div class="results-screen" id="resultsScreen">
+            <h1>¡Cuestionario Finalizado!</h1>
+            <div class="score-display">
+                <div>Tu Puntuación</div>
+                <div class="big-score" id="finalScore">0/40</div>
+                <div id="percentage">0%</div>
+            </div>
+            <div class="score-details">
+                <div class="score-item">
+                    <h3>CORRECTAS</h3>
+                    <p id="correctCount" style="color: #4caf50;">0</p>
+                </div>
+                <div class="score-item">
+                    <h3>INCORRECTAS</h3>
+                    <p id="incorrectCount" style="color: #f44336;">0</p>
+                </div>
+                <div class="score-item">
+                    <h3>TIEMPO USADO</h3>
+                    <p id="timeUsed">0:00</p>
+                </div>
+            </div>
+            <button class="btn-primary" onclick="location.reload()">Reintentar</button>
+        </div>
+    </div>
+
+    <script>
+        // Base de datos de preguntas (reemplazar con las 150 preguntas completas)
+        const allQuestions = [
+  {
+    "Nº": "1",
+    "Pregunta": "Según la Tabla N° 1, ¿cuál es el ajuste (resta) que debe aplicarse al valor de Hemoglobina observado para una altitud de 2000 a 2499 msnm?",
+    "opcion A": "1.1 g/dL",
+    "Opción B": "1.4 g/dL",
+    "Opción C": "1.8 g/dL",
+    "Opción D": "2.1 g/dL",
+    "Letra Correcta": "B"
+  },
+  {
+    "Nº": "2",
+    "Pregunta": "De acuerdo con la Tabla N° 14, ¿cuál es el nivel de Ferritina sérica (ug/L) que define la Anemia Ferropénica en un individuo de 5 a 11 años?",
+    "Opción A": "< 12 ug/L",
+    "Opción B": "< 15 ug/L",
+    "Opción C": "< 30 ug/L",
+    "Opción D": "< 70 ug/L",
+    "Letra Correcta": "B"
+  },
+  {
+    "Nº": "3",
+    "Pregunta": "En situaciones de emergencia (Tabla N° 2), ¿cuál es la dosis diaria de Sulfato Ferroso en gotas para un niño sin anemia de 4 a 5 meses?",
+    "opcion A": "6 gotas",
+    "Opción B": "8 gotas",
+    "Opción C": "11 gotas",
+    "Opción D": "17 gotas",
+    "Letra Correcta": "C"
+  },
+  {
+    "Nº": "4",
+    "Pregunta": "Para el tratamiento de la anemia leve/moderada en puérperas (Tabla N° 19), ¿cuál es la dosis de Hierro elemental + Ácido Fólico que se prescribe?",
+    "opcion A": "60 mg Fe + 400 ug Ác. Fólico",
+    "Opción B": "120 mg Fe + 800 ug Ác. Fólico",
+    "Opción C": "120 mg Fe elemental + 400 ug Ác. Fólico",
+    "Opción D": "60 mg Fe elemental + 800 ug Ác. Fólico",
+    "Letra Correcta": "C"
+  },
+  {
+    "Nº": "5",
+    "Pregunta": "En la suplementación preventiva (Tabla N° 8), ¿cuál es la duración del esquema para niños y niñas de 36 a 59 meses que usan Sulfato Ferroso jarabe?",
+    "opcion A": "3 meses continuos en el año",
+    "Opción B": "6 meses continuos en el año",
+    "Opción C": "6 meses consecutivos",
+    "Opción D": "3 meses consecutivos",
+    "Letra Correcta": "A"
+  },
+  {
+    "Nº": "6",
+    "Pregunta": "Según la Tabla N° 11, ¿cuál es el rango de Hemoglobina (g/dL) que clasifica la anemia en un niño de 6 a 11 meses como 'Anemia Leve'?",
+    "opcion A": "10.0 - 10.9 g/dL",
+    "Opción B": "9.0 - 9.9 g/dL",
+    "Opción C": "7.0 - 8.9 g/dL",
+    "Opción D": "< 7.0 g/dL",
+    "Letra Correcta": "A"
+  },
+  {
+    "Nº": "7",
+    "Pregunta": "De acuerdo con la Tabla N° 12, ¿cuál es el rango de Hemoglobina (g/dL) que clasifica la anemia en una mujer no gestante (> 15 años) como 'Anemia Moderada'?",
+    "opcion A": "11.0 - 11.9 g/dL",
+    "Opción B": "10.0 - 10.9 g/dL",
+    "Opción C": "8.0 - 9.9 g/dL",
+    "Opción D": "< 8.0 g/dL",
+    "Letra Correcta": "C"
+  },
+  {
+    "Nº": "8",
+    "Pregunta": "Según la Tabla N° 15, ¿cuál es el criterio de 'VCM < 80 fL' para definir Anemia Microcítica en una gestante?",
+    "opcion A": "Sí, aplica a todas las gestantes",
+    "Opción B": "No, sólo aplica a niños",
+    "Opción C": "Sí, si además tiene ferritina sérica < 15 ug/L",
+    "Opción D": "No, el VCM no se usa para clasificar anemia en gestantes",
+    "Letra Correcta": "A"
+  },
+  {
+    "Nº": "9",
+    "Pregunta": "En el tratamiento de la anemia moderada en niños de 6 a 11 meses (Tabla N° 16), ¿cuál es la duración del tratamiento con Sulfato Ferroso?",
+    "opcion A": "3 meses",
+    "Opción B": "4 meses",
+    "Opción C": "6 meses",
+    "Opción D": "12 meses",
+    "Letra Correcta": "C"
+  },
+  {
+    "Nº": "10",
+    "Pregunta": "Para la suplementación preventiva en niños de 6 a 11 meses (Tabla N° 9), ¿cuál es la dosis de Hierro elemental que se administra diariamente?",
+    "opcion A": "1.0 mg/kg/día",
+    "Opción B": "2.0 mg/kg/día",
+    "Opción C": "3.0 mg/kg/día",
+    "Opción D": "4.0 mg/kg/día",
+    "Letra Correcta": "A"
+  },
+  {
+    "Nº": "11",
+    "Pregunta": "En el tratamiento de la anemia severa en puérperas (Tabla N° 18), ¿cuál es el criterio para realizar transfusión sanguínea?",
+    "opcion A": "Hemoglobina < 7.0 g/dL, independientemente de la clínica",
+    "Opción B": "Hemoglobina < 8.0 g/dL con signos de hipoperfusión",
+    "Opción C": "Hemoglobina < 7.0 g/dL si está sintomática o con signos de hipoperfusión",
+    "Opción D": "Hemoglobina < 6.0 g/dL",
+    "Letra Correcta": "C"
+  },
+  {
+    "Nº": "12",
+    "Pregunta": "¿Cuál de los siguientes no es un factor de riesgo materno asociado a Anemia Ferropénica Infantil?",
+    "Opción A": "Anemia materna en el tercer trimestre",
+    "Opción B": "Multiparidad",
+    "Opción C": "Intervalo intergenésico > 2 años",
+    "Opción D": "Diabetes gestacional",
+    "Letra Correcta": "C"
+  },
+  {
+    "Nº": "13",
+    "Pregunta": "La deficiencia de hierro ocurre en tres fases progresivas. ¿Cuál de ellas se caracteriza por la disminución del hierro funcional y se diagnostica con Ferritina < 12 ug/L en niños de 5 a 11 años?",
+    "Opción A": "Deficiencia de depósitos de hierro",
+    "Opción B": "Eritropoyesis con deficiencia de hierro",
+    "Opción C": "Anemia ferropénica",
+    "Opción D": "Deficiencia latente",
+    "Letra Correcta": "A"
+  },
+  {
+    "Nº": "14",
+    "Pregunta": "Según la NTS, ¿cuál es la fuente de hierro con mayor biodisponibilidad?",
+    "showquesti": "Lácteos y derivados",
+    "Opción B": "Hortalizas de hoja verde",
+    "Opción C": "Vísceras (sangrecita, bazo, hígado)",
+    "Opción D": "Legumbres y menestras",
+    "Letra Correcta": "C"
+  },
+  {
+    "Nº": "15",
+    "Pregunta": "¿Cuál es la concentración de Sulfato Ferroso que se usa en gotas, de acuerdo con la NTS?",
+    "showquesti": "25 mg de Sulfato Ferroso por ml",
+    "Opción B": "125 mg de Sulfato Ferroso por ml",
+    "Opción C": "50 mg de Hierro elemental por ml",
+    "Opción D": "25 mg de Hierro elemental por ml",
+    "Letra Correcta": "B"
+  },
+  {
+    "Nº": "16",
+    "Pregunta": "¿Cuál es la concentración de Sulfato Ferroso que se usa en jarabe, de acuerdo con la NTS?",
+    "Opción A": "3 mg de Hierro elemental por ml",
+    "Opción B": "15 mg de Hierro elemental por 5 ml",
+    "Opción C": "25 mg de Sulfato Ferroso por ml",
+    "Opción D": "30 mg de Hierro elemental por ml",
+    "Letra Correcta": "B"
+  },
+  {
+    "Nº": "17",
+    "Pregunta": "La NTS indica que los micronutrientes en polvo (MNP) contienen:",
+    "Opción A": "Hierro, Zinc, Ácido Fólico y Vitamina A",
+    "Opción B": "Hierro, Zinc, Ácido Fólico y Vitamina B12",
+    "Opción C": "Hierro, Cobre, Ácido Fólico y Vitamina C",
+    "Opción D": "Hierro, Yodo, Ácido Fólico y Vitamina D",
+    "Letra Correcta": "A"
+  },
+  {
+    "Nº": "18",
+    "Pregunta": "Según la NTS, ¿cuál es el porcentaje de Hierro elemental que aporta el Sulfato Ferroso?",
+    "Opción A": "10%",
+    "Opción B": "20%",
+    "Opción C": "30%",
+    "Opción D": "40%",
+    "Letra Correcta": "B"
+  },
+  {
+    "Nº": "19",
+    "Pregunta": "La NTS establece que la suplementación preventiva con MNP en niños/as de 6 a 35 meses debe ser por:",
+    "Opción A": "3 meses continuos",
+    "Opción B": "6 meses continuos",
+    "Opción C": "6 meses intermitentes",
+    "Opción D": "12 meses continuos",
+    "Letra Correcta": "B"
+  },
+  {
+    "Nº": "20",
+    "Pregunta": "En la suplementación preventiva para niños de 6 a 11 meses (Tabla N° 9), ¿cuál es la duración total del esquema en meses continuos por año?",
+    "Opción A": "3 meses",
+    "Opción B": "4 meses",
+    "Opción C": "6 meses",
+    "Opción D": "12 meses",
+    "Letra Correcta": "C"
+  },
+  {
+    "Nº": "21",
+    "Pregunta": "De acuerdo con la Tabla N° 10, ¿cuál es la duración del esquema de suplementación preventiva en niños de 12 a 35 meses que usan MNP?",
+    "Opción A": "3 meses continuos",
+    "Opción B": "6 meses continuos en el año",
+    "Opción C": "12 meses continuos",
+    "Opción D": "9 meses intermitentes",
+    "Letra Correcta": "B"
+  },
+  {
+    "Nº": "22",
+    "Pregunta": "Según la Tabla N° 16, ¿cuál es la dosis de Hierro elemental (mg/kg/día) para el tratamiento de la anemia leve en niños de 6 a 11 meses?",
+    "Opción A": "1.5 mg/kg/día",
+    "Opción B": "2.0 mg/kg/día",
+    "Opción C": "3.0 mg/kg/día",
+    "Opción D": "3.5 mg/kg/día",
+    "Letra Correcta": "C"
+  },
+  {
+    "Nº": "23",
+    "Pregunta": "Para el tratamiento de la anemia moderada en niños de 12 a 35 meses (Tabla N° 16), ¿cuál es la duración mínima del tratamiento?",
+    "Opción A": "3 meses",
+    "Opción B": "4 meses",
+    "Opción C": "6 meses",
+    "Opción D": "12 meses",
+    "Letra Correcta": "C"
+  },
+  {
+    "Nº": "24",
+    "Pregunta": "De acuerdo con la Tabla N° 17, ¿cuál es la dosis de Hierro elemental (mg/día) para el tratamiento de la anemia leve en mujeres no gestantes (> 15 años)?",
+    "Opción A": "60 mg",
+    "Opción B": "120 mg",
+    "Opción C": "180 mg",
+    "Opción D": "240 mg",
+    "Letra Correcta": "A"
+  },
+  {
+    "Nº": "25",
+    "Pregunta": "En el tratamiento de la anemia moderada en mujeres gestantes (Tabla N° 17), ¿cuál es la duración del tratamiento?",
+    "Opción A": "3 meses",
+    "Opción B": "4 meses",
+    "Opción C": "6 meses",
+    "Opción D": "12 meses",
+    "Letra Correcta": "C"
+  },
+  {
+    "Nº": "26",
+    "Pregunta": "Según la Tabla N° 17, ¿cuál es la dosis de Hierro elemental (mg/día) para el tratamiento de la anemia severa en mujeres gestantes?",
+    "Opción A": "60 mg",
+    "Opción B": "120 mg",
+    "Opción C": "180 mg",
+    "Opción D": "240 mg",
+    "Letra Correcta": "B"
+  },
+  {
+    "Nº": "27",
+    "Pregunta": "Para el tratamiento de la anemia leve/moderada en puérperas (Tabla N° 19), ¿cuál es la duración del tratamiento?",
+    "Opción A": "3 meses",
+    "Opción B": "4 meses",
+    "Opción C": "6 meses",
+    "Opción D": "12 meses",
+    "Letra Correcta": "C"
+  },
+  {
+    "Nº": "28",
+    "Pregunta": "¿Cuál es la dosis de Sulfato Ferroso en gotas para un niño con anemia de 4 a 5 meses (Tabla N° 16)?",
+    "Opción A": "6 gotas",
+    "Opción B": "8 gotas",
+    "Opción C": "11 gotas",
+    "Opción D": "17 gotas",
+    "Letra Correcta": "D"
+  },
+  {
+    "Nº": "29",
+    "Pregunta": "En el tratamiento de la anemia severa en mujeres no gestantes (Tabla N° 18), ¿cuál es la dosis diaria de Hierro elemental?",
+    "Opción A": "120 mg",
+    "Opción B": "180 mg",
+    "Opción C": "240 mg",
+    "Opción D": "300 mg",
+    "Letra Correcta": "C"
+  },
+  {
+    "Nº": "30",
+    "Pregunta": "Según la Tabla N° 18, ¿cuál es el criterio de Hemoglobina para indicar la transfusión sanguínea en mujeres no gestantes con anemia severa?",
+    "Opción A": "Hb < 7.0 g/dL si está sintomática",
+    "Opción B": "Hb < 8.0 g/dL con signos de hipoperfusión",
+    "Opción C": "Hb < 9.0 g/dL",
+    "Opción D": "Hb < 6.0 g/dL",
+    "Letra Correcta": "A"
+  },
+  {
+    "Nº": "31",
+    "Pregunta": "De acuerdo con la Tabla N° 20, ¿cuál es el rango de Hemoglobina (g/dL) que clasifica la anemia en varones adolescentes de 12 a 14 años como 'Anemia Moderada'?",
+    "Opción A": "11.0 - 11.9 g/dL",
+    "Opción B": "10.0 - 10.9 g/dL",
+    "Opción C": "8.0 - 9.9 g/dL",
+    "Opción D": "< 8.0 g/dL",
+    "Letra Correcta": "B"
+  },
+  {
+    "Nº": "32",
+    "Pregunta": "Según la Tabla N° 20, ¿cuál es el rango de Hemoglobina (g/dL) que clasifica la anemia en mujeres adolescentes de 12 a 14 años como 'Anemia Severa'?",
+    "Opción A": "10.0 - 10.9 g/dL",
+    "Opción B": "8.0 - 9.9 g/dL",
+    "Opción C": "7.0 - 7.9 g/dL",
+    "Opción D": "< 7.0 g/dL",
+    "Letra Correcta": "D"
+  },
+  {
+    "Nº": "33",
+    "Pregunta": "Para el tratamiento de la anemia leve en adolescentes (Tabla N° 21), ¿cuál es la dosis diaria de Hierro elemental?",
+    "Opción A": "60 mg",
+    "Opción B": "120 mg",
+    "Opción C": "180 mg",
+    "Opción D": "240 mg",
+    "Letra Correcta": "A"
+  },
+  {
+    "Nº": "34",
+    "Pregunta": "En el tratamiento de la anemia moderada en adolescentes (Tabla N° 21), ¿cuál es la duración del tratamiento?",
+    "Opción A": "3 meses",
+    "Opción B": "4 meses",
+    "Opción C": "6 meses",
+    "Opción D": "12 meses",
+    "Letra Correcta": "C"
+  },
+  {
+    "Nº": "35",
+    "Pregunta": "Según la Tabla N° 22, ¿cuál es el criterio de Hemoglobina para indicar la transfusión sanguínea en adolescentes con anemia severa?",
+    "Opción A": "Hb < 7.0 g/dL si está sintomático",
+    "Opción B": "Hb < 8.0 g/dL con signos de hipoperfusión",
+    "Opción C": "Hb < 9.0 g/dL",
+    "Opción D": "Hb < 6.0 g/dL",
+    "Letra Correcta": "A"
+  },
+  {
+    "Nº": "36",
+    "Pregunta": "La NTS recomienda la suplementación preventiva con MNP en niños/as de 6 a 35 meses durante 6 meses continuos en el año. ¿Cuál es la presentación recomendada en esta edad?",
+    "Opción A": "Sulfato Ferroso en gotas",
+    "Opción B": "Sulfato Ferroso en jarabe",
+    "Opción C": "Micronutrientes en Polvo (MNP)",
+    "Opción D": "Hierro Polimaltosado en gotas",
+    "Letra Correcta": "C"
+  },
+  {
+    "Nº": "37",
+    "Pregunta": "¿Cuál es la edad límite en meses para la suplementación preventiva con MNP en niños/as?",
+    "Opción A": "24 meses",
+    "Opción B": "35 meses",
+    "Opción C": "48 meses",
+    "Opción D": "59 meses",
+    "Letra Correcta": "B"
+  },
+  {
+    "Nº": "38",
+    "Pregunta": "Para la suplementación preventiva en niños de 12 a 35 meses (Tabla N° 10), ¿cuál es la dosis de Hierro elemental que se administra diariamente?",
+    "Opción A": "1.0 mg/kg/día",
+    "Opción B": "2.0 mg/kg/día",
+    "Opción C": "3.0 mg/kg/día",
+    "Opción D": "4.0 mg/kg/día",
+    "Letra Correcta": "A"
+  },
+  {
+    "Nº": "39",
+    "Pregunta": "En la suplementación preventiva para puérperas (Tabla N° 13), ¿cuál es la dosis de Hierro elemental + Ácido Fólico que se prescribe?",
+    "Opción A": "60 mg Fe + 400 ug Ác. Fólico",
+    "Opción B": "120 mg Fe + 800 ug Ác. Fólico",
+    "Opción C": "120 mg Fe elemental + 400 ug Ác. Fólico",
+    "Opción D": "60 mg Fe elemental + 800 ug Ác. Fólico",
+    "Letra Correcta": "A"
+  },
+  {
+    "Nº": "40",
+    "Pregunta": "Según la Tabla N° 13, ¿cuál es la duración del esquema de suplementación preventiva para puérperas?",
+    "Opción A": "3 meses",
+    "Opción B": "4 meses",
+    "Opción C": "6 meses",
+    "Opción D": "12 meses",
+    "Letra Correcta": "A"
+  },
+  {
+    "Nº": "41",
+    "Pregunta": "La anemia en niños de 6 a 11 meses se define con un nivel de Hemoglobina (corregida por altitud) menor a:",
+    "Opción A": "10.0 g/dL",
+    "Opción B": "10.5 g/dL",
+    "Opción C": "11.0 g/dL",
+    "Opción D": "12.0 g/dL",
+    "Letra Correcta": "C"
+  },
+  {
+    "Nº": "42",
+    "Pregunta": "¿Cuál es el nivel de Hemoglobina (corregida por altitud) que define la anemia en mujeres gestantes?",
+    "Opción A": "< 10.0 g/dL",
+    "Opción B": "< 10.5 g/dL",
+    "Opción C": "< 11.0 g/dL",
+    "Opción D": "< 12.0 g/dL",
+    "Letra Correcta": "C"
+  },
+  {
+    "Nº": "43",
+    "Pregunta": "La NTS establece que la deficiencia de Hierro sin anemia se diagnostica cuando el nivel de Ferritina sérica (ug/L) en una mujer gestante es:",
+    "Opción A": "< 15 ug/L",
+    "Opción B": "< 30 ug/L",
+    "Opción C": "< 40 ug/L",
+    "Opción D": "< 70 ug/L",
+    "Letra Correcta": "B"
+  },
+  {
+    "Nº": "44",
+    "Pregunta": "¿Cuál es el criterio de Hemoglobina (g/dL) para clasificar la anemia en mujeres gestantes como 'Anemia Leve' (Tabla N° 12)?",
+    "Opción A": "10.0 - 10.9 g/dL",
+    "Opción B": "9.0 - 9.9 g/dL",
+    "Opción C": "8.0 - 8.9 g/dL",
+    "Opción D": "< 8.0 g/dL",
+    "Letra Correcta": "A"
+  },
+  {
+    "Nº": "45",
+    "Pregunta": "En el tratamiento de la deficiencia de Hierro sin anemia en mujeres gestantes (Tabla N° 17), ¿cuál es la dosis diaria de Hierro elemental + Ácido Fólico?",
+    "Opción A": "60 mg Fe + 400 ug Ác. Fólico",
+    "Opción B": "120 mg Fe + 800 ug Ác. Fólico",
+    "Opción C": "60 mg Fe elemental + 400 ug Ác. Fólico",
+    "Opción D": "120 mg Fe elemental + 800 ug Ác. Fólico",
+    "Letra Correcta": "C"
+  },
+  {
+    "Nº": "46",
+    "Pregunta": "Según la NTS, ¿cuál es la principal complicación obstétrica de la anemia en el tercer trimestre de gestación?",
+    "Opción A": "Preeclampsia",
+    "Opción B": "Ruptura prematura de membranas",
+    "Opción C": "Hemorragia postparto (HPP)",
+    "Opción D": "Parto pretérmino",
+    "Letra Correcta": "C"
+  },
+  {
+    "Nº": "47",
+    "Pregunta": "En el tratamiento de la anemia leve en mujeres gestantes (Tabla N° 17), ¿cuál es la duración mínima del tratamiento?",
+    "Opción A": "3 meses",
+    "Opción B": "4 meses",
+    "Opción C": "6 meses",
+    "Opción D": "12 meses",
+    "Letra Correcta": "C"
+  },
+  {
+    "Nº": "48",
+    "Pregunta": "La suplementación preventiva en mujeres adolescentes (12 a 17 años) se realiza con Hierro elemental + Ácido Fólico. ¿Cuál es el esquema de duración y frecuencia recomendado?",
+    "Opción A": "180 días continuos",
+    "Opción B": "3 meses continuos",
+    "Opción C": "6 meses continuos en el año",
+    "Opción D": "90 días intermitentes",
+    "Letra Correcta": "C"
+  },
+  {
+    "Nº": "49",
+    "Pregunta": "Según la Tabla N° 13, ¿cuál es la dosis de Hierro elemental + Ácido Fólico para la suplementación preventiva en mujeres no gestantes con riesgo de anemia?",
+    "Opción A": "60 mg Fe elemental + 400 ug Ác. Fólico",
+    "Opción B": "120 mg Fe elemental + 800 ug Ác. Fólico",
+    "Opción C": "60 mg Fe elemental + 800 ug Ác. Fólico",
+    "Opción D": "120 mg Fe elemental + 400 ug Ác. Fólico",
+    "Letra Correcta": "A"
+  },
+  {
+    "Nº": "50",
+    "Pregunta": "Para el tratamiento de la anemia severa en niños de 6 a 11 meses (Tabla N° 18), ¿cuál es el criterio de Hemoglobina para indicar la transfusión sanguínea?",
+    "Opción A": "Hb < 6.0 g/dL",
+    "Opción B": "Hb < 7.0 g/dL, si está sintomático o con signos de hipoperfusión",
+    "Opción C": "Hb < 8.0 g/dL",
+    "Opción D": "Hb < 5.0 g/dL",
+    "Letra Correcta": "B"
+  },
+  {
+    "Nº": "51",
+    "Pregunta": "De acuerdo con la Tabla N° 1, ¿cuál es el ajuste (resta) que debe aplicarse al valor de Hemoglobina observado para una altitud de 2500 a 2999 msnm?",
+    "Opción A": "1.1 g/dL",
+    "Opción B": "1.4 g/dL",
+    "Opción C": "1.8 g/dL",
+    "Opción D": "2.1 g/dL",
+    "Letra Correcta": "C"
+  },
+  {
+    "Nº": "52",
+    "Pregunta": "Según la NTS, ¿cuál es el criterio de Hemoglobina para clasificar la anemia en mujeres gestantes como 'Anemia Moderada' (Tabla N° 12)?",
+    "Opción A": "10.0 - 10.9 g/dL",
+    "Opción B": "9.0 - 9.9 g/dL",
+    "Opción C": "8.0 - 8.9 g/dL",
+    "Opción D": "< 8.0 g/dL",
+    "Letra Correcta": "B"
+  },
+  {
+    "Nº": "53",
+    "Pregunta": "La NTS establece que la deficiencia de Hierro sin anemia se diagnostica cuando el nivel de Ferritina sérica (ug/L) en niños de 6 a 35 meses es:",
+    "Opción A": "< 12 ug/L",
+    "Opción B": "< 15 ug/L",
+    "Opción C": "< 30 ug/L",
+    "Opción D": "< 70 ug/L",
+    "Letra Correcta": "C"
+  },
+  {
+    "Nº": "54",
+    "Pregunta": "En el tratamiento de la anemia leve en niños de 6 a 11 meses (Tabla N° 16), ¿cuál es la duración mínima del tratamiento?",
+    "Opción A": "3 meses",
+    "Opción B": "4 meses",
+    "Opción C": "6 meses",
+    "Opción D": "12 meses",
+    "Letra Correcta": "C"
+  },
+  {
+    "Nº": "55",
+    "Pregunta": "¿Cuál es la dosis de Sulfato Ferroso en gotas para un niño con anemia severa de 4 a 5 meses (Tabla N° 18)?",
+    "Opción A": "17 gotas",
+    "Opción B": "23 gotas",
+    "Opción C": "34 gotas",
+    "Opción D": "45 gotas",
+    "Letra Correcta": "C"
+  },
+  {
+    "Nº": "56",
+    "Pregunta": "Según la Tabla N° 18, ¿cuál es la dosis de Hierro elemental (mg/kg/día) para el tratamiento de la anemia severa en niños de 12 a 35 meses?",
+    "Opción A": "3.0 mg/kg/día",
+    "Opción B": "4.0 mg/kg/día",
+    "Opción C": "5.0 mg/kg/día",
+    "Opción D": "6.0 mg/kg/día",
+    "Letra Correcta": "D"
+  },
+  {
+    "Nº": "57",
+    "Pregunta": "Para el tratamiento de la anemia leve en mujeres no gestantes (> 15 años) (Tabla N° 17), ¿cuál es la duración mínima del tratamiento?",
+    "Opción A": "3 meses",
+    "Opción B": "4 meses",
+    "Opción C": "6 meses",
+    "Opción D": "12 meses",
+    "Letra Correcta": "C"
+  },
+  {
+    "Nº": "58",
+    "Pregunta": "En el tratamiento de la anemia moderada en puérperas (Tabla N° 19), ¿cuál es la dosis de Hierro elemental + Ácido Fólico que se prescribe?",
+    "Opción A": "60 mg Fe + 400 ug Ác. Fólico",
+    "Opción B": "120 mg Fe + 800 ug Ác. Fólico",
+    "Opción C": "120 mg Fe elemental + 400 ug Ác. Fólico",
+    "Opción D": "60 mg Fe elemental + 800 ug Ác. Fólico",
+    "Letra Correcta": "C"
+  },
+  {
+    "Nº": "59",
+    "Pregunta": "Según la Tabla N° 20, ¿cuál es el rango de Hemoglobina (g/dL) que clasifica la anemia en varones adolescentes de 12 a 14 años como 'Anemia Severa'?",
+    "Opción A": "10.0 - 10.9 g/dL",
+    "Opción B": "8.0 - 9.9 g/dL",
+    "Opción C": "7.0 - 7.9 g/dL",
+    "Opción D": "< 7.0 g/dL",
+    "Letra Correcta": "D"
+  },
+  {
+    "Nº": "60",
+    "Pregunta": "Para el tratamiento de la anemia severa en adolescentes (Tabla N° 22), ¿cuál es la dosis diaria de Hierro elemental que se administra?",
+    "Opción A": "120 mg",
+    "Opción B": "180 mg",
+    "Opción C": "240 mg",
+    "Opción D": "300 mg",
+    "Letra Correcta": "B"
+  },
+  {
+    "Nº": "61",
+    "Pregunta": "La anemia en niños de 12 a 35 meses se define con un nivel de Hemoglobina (corregida por altitud) menor a:",
+    "Opción A": "10.0 g/dL",
+    "Opción B": "10.5 g/dL",
+    "Opción C": "11.0 g/dL",
+    "Opción D": "12.0 g/dL",
+    "Letra Correcta": "C"
+  },
+  {
+    "Nº": "62",
+    "Pregunta": "¿Cuál es el nivel de Hemoglobina (corregida por altitud) que define la anemia en varones adolescentes de 12 a 14 años?",
+    "Opción A": "< 11.0 g/dL",
+    "Opción B": "< 12.0 g/dL",
+    "Opción C": "< 13.0 g/dL",
+    "Opción D": "< 14.0 g/dL",
+    "Letra Correcta": "C"
+  },
+  {
+    "Nº": "63",
+    "Pregunta": "De acuerdo con la Tabla N° 12, ¿cuál es el rango de Hemoglobina (g/dL) que clasifica la anemia en mujeres gestantes como 'Anemia Severa'?",
+    "Opción A": "9.0 - 9.9 g/dL",
+    "Opción B": "8.0 - 8.9 g/dL",
+    "Opción C": "7.0 - 7.9 g/dL",
+    "Opción D": "< 8.0 g/dL",
+    "Letra Correcta": "D"
+  },
+  {
+    "Nº": "64",
+    "Pregunta": "Según la Tabla N° 14, ¿cuál es el nivel de Ferritina sérica (ug/L) que define la Anemia Ferropénica en niños de 6 a 11 meses?",
+    "Opción A": "< 12 ug/L",
+    "Opción B": "< 15 ug/L",
+    "Opción C": "< 30 ug/L",
+    "Opción D": "< 70 ug/L",
+    "Letra Correcta": "B"
+  },
+  {
+    "Nº": "65",
+    "Pregunta": "Para el tratamiento de la anemia moderada en niños de 6 a 11 meses (Tabla N° 16), ¿cuál es la dosis de Hierro elemental (mg/kg/día)?",
+    "Opción A": "3.0 mg/kg/día",
+    "Opción B": "4.0 mg/kg/día",
+    "Opción C": "5.0 mg/kg/día",
+    "Opción D": "6.0 mg/kg/día",
+    "Letra Correcta": "D"
+  },
+  {
+    "Nº": "66",
+    "Pregunta": "¿Cuál es la dosis de Sulfato Ferroso en gotas para un niño con anemia severa de 6 a 11 meses (Tabla N° 18)?",
+    "Opción A": "34 gotas",
+    "Opción B": "45 gotas",
+    "Opción C": "56 gotas",
+    "Opción D": "67 gotas",
+    "Letra Correcta": "C"
+  },
+  {
+    "Nº": "67",
+    "Pregunta": "De acuerdo con la Tabla N° 19, ¿cuál es la dosis de Hierro elemental + Ácido Fólico para el tratamiento de la anemia severa en puérperas?",
+    "Opción A": "120 mg Fe elemental + 400 ug Ác. Fólico",
+    "Opción B": "180 mg Fe elemental + 800 ug Ác. Fólico",
+    "Opción C": "240 mg Fe elemental + 400 ug Ác. Fólico",
+    "Opción D": "180 mg Fe elemental + 400 ug Ác. Fólico",
+    "Letra Correcta": "D"
+  },
+  {
+    "Nº": "68",
+    "Pregunta": "Según la Tabla N° 19, ¿cuál es la duración mínima del tratamiento para la anemia severa en puérperas?",
+    "Opción A": "3 meses",
+    "Opción B": "4 meses",
+    "Opción C": "6 meses",
+    "Opción D": "12 meses",
+    "Letra Correcta": "C"
+  },
+  {
+    "Nº": "69",
+    "Pregunta": "Para el tratamiento de la anemia moderada en adolescentes (Tabla N° 21), ¿cuál es la dosis diaria de Hierro elemental?",
+    "Opción A": "60 mg",
+    "Opción B": "120 mg",
+    "Opción C": "180 mg",
+    "Opción D": "240 mg",
+    "Letra Correcta": "B"
+  },
+  {
+    "Nº": "70",
+    "Pregunta": "En el tratamiento de la anemia severa en adolescentes (Tabla N° 22), ¿cuál es la duración mínima del tratamiento?",
+    "Opción A": "3 meses",
+    "Opción B": "4 meses",
+    "Opción C": "6 meses",
+    "Opción D": "12 meses",
+    "Letra Correcta": "C"
+  },
+  {
+    "Nº": "71",
+    "Pregunta": "La anemia en varones de 15 a 17 años se define con un nivel de Hemoglobina (corregida por altitud) menor a:",
+    "Opción A": "12.0 g/dL",
+    "Opción B": "13.0 g/dL",
+    "Opción C": "14.0 g/dL",
+    "Opción D": "15.0 g/dL",
+    "Letra Correcta": "C"
+  },
+  {
+    "Nº": "72",
+    "Pregunta": "¿Cuál es el nivel de Hemoglobina (corregida por altitud) que define la anemia en mujeres adolescentes de 15 a 17 años?",
+    "Opción A": "< 11.0 g/dL",
+    "Opción B": "< 12.0 g/dL",
+    "Opción C": "< 13.0 g/dL",
+    "Opción D": "< 14.0 g/dL",
+    "Letra Correcta": "B"
+  },
+  {
+    "Nº": "73",
+    "Pregunta": "De acuerdo con la Tabla N° 1, ¿cuál es el ajuste (resta) que debe aplicarse al valor de Hemoglobina observado para una altitud de 3000 a 3499 msnm?",
+    "Opción A": "1.1 g/dL",
+    "Opción B": "1.4 g/dL",
+    "Opción C": "1.8 g/dL",
+    "Opción D": "2.1 g/dL",
+    "Letra Correcta": "D"
+  },
+  {
+    "Nº": "74",
+    "Pregunta": "Según la Tabla N° 11, ¿cuál es el rango de Hemoglobina (g/dL) que clasifica la anemia en un niño de 12 a 35 meses como 'Anemia Severa'?",
+    "Opción A": "10.0 - 10.9 g/dL",
+    "Opción B": "9.0 - 9.9 g/dL",
+    "Opción C": "7.0 - 8.9 g/dL",
+    "Opción D": "< 7.0 g/dL",
+    "Letra Correcta": "D"
+  },
+  {
+    "Nº": "75",
+    "Pregunta": "La NTS establece que la deficiencia de Hierro sin anemia se diagnostica cuando el nivel de Ferritina sérica (ug/L) en niños de 12 a 35 meses es:",
+    "Opción A": "< 12 ug/L",
+    "Opción B": "< 15 ug/L",
+    "Opción C": "< 30 ug/L",
+    "Opción D": "< 70 ug/L",
+    "Letra Correcta": "C"
+  },
+  {
+    "Nº": "76",
+    "Pregunta": "Para el tratamiento de la anemia leve en mujeres gestantes (Tabla N° 17), ¿cuál es la dosis diaria de Hierro elemental + Ácido Fólico?",
+    "Opción A": "60 mg Fe + 400 ug Ác. Fólico",
+    "Opción B": "120 mg Fe + 800 ug Ác. Fólico",
+    "Opción C": "60 mg Fe elemental + 400 ug Ác. Fólico",
+    "Opción D": "120 mg Fe elemental + 800 ug Ác. Fólico",
+    "Letra Correcta": "A"
+  },
+  {
+    "Nº": "77",
+    "Pregunta": "En el tratamiento de la anemia severa en mujeres gestantes (Tabla N° 18), ¿cuál es la duración mínima del tratamiento?",
+    "Opción A": "3 meses",
+    "Opción B": "4 meses",
+    "Opción C": "6 meses",
+    "Opción D": "12 meses",
+    "Letra Correcta": "C"
+  },
+  {
+    "Nº": "78",
+    "Pregunta": "Según la Tabla N° 18, ¿cuál es la dosis de Hierro elemental + Ácido Fólico para el tratamiento de la anemia severa en puérperas?",
+    "Opción A": "120 mg Fe + 400 ug Ác. Fólico",
+    "Opción B": "180 mg Fe + 800 ug Ác. Fólico",
+    "Opción C": "240 mg Fe + 400 ug Ác. Fólico",
+    "Opción D": "180 mg Fe elemental + 400 ug Ác. Fólico",
+    "Letra Correcta": "D"
+  },
+  {
+    "Nº": "79",
+    "Pregunta": "Para el tratamiento de la anemia leve en adolescentes (Tabla N° 21), ¿cuál es la duración mínima del tratamiento?",
+    "Opción A": "3 meses",
+    "Opción B": "4 meses",
+    "Opción C": "6 meses",
+    "Opción D": "12 meses",
+    "Letra Correcta": "C"
+  },
+  {
+    "Nº": "80",
+    "Pregunta": "En el tratamiento de la anemia severa en adolescentes (Tabla N° 22), ¿cuál es la dosis diaria de Hierro elemental + Ácido Fólico?",
+    "Opción A": "120 mg Fe + 400 ug Ác. Fólico",
+    "Opción B": "180 mg Fe + 800 ug Ác. Fólico",
+    "Opción C": "240 mg Fe + 400 ug Ác. Fólico",
+    "Opción D": "180 mg Fe elemental + 400 ug Ác. Fólico",
+    "Letra Correcta": "D"
+  },
+  {
+    "Nº": "81",
+    "Pregunta": "La anemia en niños de 36 a 59 meses se define con un nivel de Hemoglobina (corregida por altitud) menor a:",
+    "Opción A": "10.0 g/dL",
+    "Opción B": "10.5 g/dL",
+    "Opción C": "11.0 g/dL",
+    "Opción D": "12.0 g/dL",
+    "Letra Correcta": "C"
+  },
+  {
+    "Nº": "82",
+    "Pregunta": "¿Cuál es el nivel de Hemoglobina (corregida por altitud) que define la anemia en mujeres no gestantes (> 15 años)?",
+    "Opción A": "< 11.0 g/dL",
+    "Opción B": "< 12.0 g/dL",
+    "Opción C": "< 13.0 g/dL",
+    "Opción D": "< 14.0 g/dL",
+    "Letra Correcta": "B"
+  },
+  {
+    "Nº": "83",
+    "Pregunta": "De acuerdo con la Tabla N° 1, ¿cuál es el ajuste (resta) que debe aplicarse al valor de Hemoglobina observado para una altitud de 3500 a 3999 msnm?",
+    "Opción A": "1.8 g/dL",
+    "Opción B": "2.1 g/dL",
+    "Opción C": "2.4 g/dL",
+    "Opción D": "2.8 g/dL",
+    "Letra Correcta": "C"
+  },
+  {
+    "Nº": "84",
+    "Pregunta": "Según la Tabla N° 11, ¿cuál es el rango de Hemoglobina (g/dL) que clasifica la anemia en un niño de 36 a 59 meses como 'Anemia Leve'?",
+    "Opción A": "10.0 - 10.9 g/dL",
+    "Opción B": "9.0 - 9.9 g/dL",
+    "Opción C": "7.0 - 8.9 g/dL",
+    "Opción D": "< 7.0 g/dL",
+    "Letra Correcta": "A"
+  },
+  {
+    "Nº": "85",
+    "Pregunta": "La NTS establece que la deficiencia de Hierro sin anemia se diagnostica cuando el nivel de Ferritina sérica (ug/L) en niños de 36 a 59 meses es:",
+    "Opción A": "< 12 ug/L",
+    "Opción B": "< 15 ug/L",
+    "Opción C": "< 30 ug/L",
+    "Opción D": "< 70 ug/L",
+    "Letra Correcta": "B"
+  },
+  {
+    "Nº": "86",
+    "Pregunta": "Para el tratamiento de la anemia moderada en mujeres gestantes (Tabla N° 17), ¿cuál es la dosis diaria de Hierro elemental + Ácido Fólico?",
+    "Opción A": "60 mg Fe + 400 ug Ác. Fólico",
+    "Opción B": "120 mg Fe + 800 ug Ác. Fólico",
+    "Opción C": "60 mg Fe elemental + 400 ug Ác. Fólico",
+    "Opción D": "120 mg Fe elemental + 800 ug Ác. Fólico",
+    "Letra Correcta": "B"
+  },
+  {
+    "Nº": "87",
+    "Pregunta": "En el tratamiento de la anemia severa en puérperas (Tabla N° 18), ¿cuál es el criterio para realizar transfusión sanguínea?",
+    "Opción A": "Hb < 7.0 g/dL, si está sintomática o con signos de hipoperfusión",
+    "Opción B": "Hb < 8.0 g/dL con signos de hipoperfusión",
+    "Opción C": "Hb < 6.0 g/dL, independientemente de la clínica",
+    "Opción D": "Hb < 5.0 g/dL",
+    "Letra Correcta": "A"
+  },
+  {
+    "Nº": "88",
+    "Pregunta": "Según la Tabla N° 20, ¿cuál es el rango de Hemoglobina (g/dL) que clasifica la anemia en varones adolescentes de 15 a 17 años como 'Anemia Leve'?",
+    "Opción A": "13.0 - 13.9 g/dL",
+    "Opción B": "12.0 - 12.9 g/dL",
+    "Opción C": "11.0 - 11.9 g/dL",
+    "Opción D": "< 11.0 g/dL",
+    "Letra Correcta": "A"
+  },
+  {
+    "Nº": "89",
+    "Pregunta": "Para el tratamiento de la anemia leve en varones adolescentes de 15 a 17 años (Tabla N° 21), ¿cuál es la dosis diaria de Hierro elemental?",
+    "Opción A": "60 mg",
+    "Opción B": "120 mg",
+    "Opción C": "180 mg",
+    "Opción D": "240 mg",
+    "Letra Correcta": "A"
+  },
+  {
+    "Nº": "90",
+    "Pregunta": "En el tratamiento de la anemia moderada en varones adolescentes de 15 a 17 años (Tabla N° 21), ¿cuál es la duración mínima del tratamiento?",
+    "Opción A": "3 meses",
+    "Opción B": "4 meses",
+    "Opción C": "6 meses",
+    "Opción D": "12 meses",
+    "Letra Correcta": "C"
+  },
+  {
+    "Nº": "91",
+    "Pregunta": "La anemia en niños de 5 a 11 años se define con un nivel de Hemoglobina (corregida por altitud) menor a:",
+    "Opción A": "11.0 g/dL",
+    "Opción B": "11.5 g/dL",
+    "Opción C": "12.0 g/dL",
+    "Opción D": "12.5 g/dL",
+    "Letra Correcta": "B"
+  },
+  {
+    "Nº": "92",
+    "Pregunta": "¿Cuál es el nivel de Hemoglobina (corregida por altitud) que define la anemia en varones adolescentes de 15 a 17 años?",
+    "Opción A": "< 12.0 g/dL",
+    "Opción B": "< 13.0 g/dL",
+    "Opción C": "< 14.0 g/dL",
+    "Opción D": "< 15.0 g/dL",
+    "Letra Correcta": "C"
+  },
+  {
+    "Nº": "93",
+    "Pregunta": "De acuerdo con la Tabla N° 1, ¿cuál es el ajuste (resta) que debe aplicarse al valor de Hemoglobina observado para una altitud de 4000 a 4499 msnm?",
+    "Opción A": "2.4 g/dL",
+    "Opción B": "2.8 g/dL",
+    "Opción C": "3.1 g/dL",
+    "Opción D": "3.5 g/dL",
+    "Letra Correcta": "B"
+  },
+  {
+    "Nº": "94",
+    "Pregunta": "Según la Tabla N° 11, ¿cuál es el rango de Hemoglobina (g/dL) que clasifica la anemia en un niño de 5 a 11 años como 'Anemia Moderada'?",
+    "Opción A": "11.0 - 11.4 g/dL",
+    "Opción B": "9.0 - 10.9 g/dL",
+    "Opción C": "8.0 - 9.9 g/dL",
+    "Opción D": "< 8.0 g/dL",
+    "Letra Correcta": "B"
+  },
+  {
+    "Nº": "95",
+    "Pregunta": "La NTS establece que la deficiencia de Hierro sin anemia se diagnostica cuando el nivel de Ferritina sérica (ug/L) en niños de 5 a 11 años es:",
+    "Opción A": "< 12 ug/L",
+    "Opción B": "< 15 ug/L",
+    "Opción C": "< 30 ug/L",
+    "Opción D": "< 70 ug/L",
+    "Letra Correcta": "B"
+  },
+  {
+    "Nº": "96",
+    "Pregunta": "Para el tratamiento de la deficiencia de Hierro sin anemia en niños de 5 a 11 años (Tabla N° 16), ¿cuál es la duración mínima del tratamiento?",
+    "Opción A": "3 meses",
+    "Opción B": "4 meses",
+    "Opción C": "6 meses",
+    "Opción D": "12 meses",
+    "Letra Correcta": "A"
+  },
+  {
+    "Nº": "97",
+    "Pregunta": "En el tratamiento de la anemia severa en mujeres no gestantes (Tabla N° 18), ¿cuál es la dosis de Hierro elemental + Ácido Fólico que se prescribe?",
+    "Opción A": "120 mg Fe + 400 ug Ác. Fólico",
+    "Opción B": "180 mg Fe + 800 ug Ác. Fólico",
+    "Opción C": "240 mg Fe elemental + 400 ug Ác. Fólico",
+    "Opción D": "180 mg Fe elemental + 400 ug Ác. Fólico",
+    "Letra Correcta": "C"
+  },
+  {
+    "Nº": "98",
+    "Pregunta": "Según la Tabla N° 20, ¿cuál es el rango de Hemoglobina (g/dL) que clasifica la anemia en mujeres adolescentes de 15 a 17 años como 'Anemia Moderada'?",
+    "Opción A": "11.0 - 11.9 g/dL",
+    "Opción B": "10.0 - 10.9 g/dL",
+    "Opción C": "8.0 - 9.9 g/dL",
+    "Opción D": "< 8.0 g/dL",
+    "Letra Correcta": "B"
+  },
+  {
+    "Nº": "99",
+    "Pregunta": "Para el tratamiento de la anemia moderada en mujeres adolescentes de 15 a 17 años (Tabla N° 21), ¿cuál es la dosis diaria de Hierro elemental?",
+    "Opción A": "60 mg",
+    "Opción B": "120 mg",
+    "Opción C": "180 mg",
+    "Opción D": "240 mg",
+    "Letra Correcta": "B"
+  },
+  {
+    "Nº": "100",
+    "Pregunta": "En el tratamiento de la anemia severa en mujeres adolescentes de 15 a 17 años (Tabla N° 22), ¿cuál es la duración mínima del tratamiento?",
+    "Opción A": "3 meses",
+    "Opción B": "4 meses",
+    "Opción C": "6 meses",
+    "Opción D": "12 meses",
+    "Letra Correcta": "C"
+  },
+  {
+    "Nº": "101",
+    "Pregunta": "La anemia en varones de 18 a 59 años se define con un nivel de Hemoglobina (corregida por altitud) menor a:",
+    "Opción A": "12.0 g/dL",
+    "Opción B": "13.0 g/dL",
+    "Opción C": "14.0 g/dL",
+    "Opción D": "15.0 g/dL",
+    "Letra Correcta": "B"
+  },
+  {
+    "Nº": "102",
+    "Pregunta": "¿Cuál es el nivel de Hemoglobina (corregida por altitud) que define la anemia en mujeres de 18 a 59 años?",
+    "Opción A": "< 11.0 g/dL",
+    "Opción B": "< 12.0 g/dL",
+    "Opción C": "< 13.0 g/dL",
+    "Opción D": "< 14.0 g/dL",
+    "Letra Correcta": "B"
+  },
+  {
+    "Nº": "103",
+    "Pregunta": "De acuerdo con la Tabla N° 1, ¿cuál es el ajuste (resta) que debe aplicarse al valor de Hemoglobina observado para una altitud de 4500 a 4999 msnm?",
+    "Opción A": "2.8 g/dL",
+    "Opción B": "3.1 g/dL",
+    "Opción C": "3.5 g/dL",
+    "Opción D": "4.0 g/dL",
+    "Letra Correcta": "B"
+  },
+  {
+    "Nº": "104",
+    "Pregunta": "Según la Tabla N° 11, ¿cuál es el rango de Hemoglobina (g/dL) que clasifica la anemia en un niño de 5 a 11 años como 'Anemia Severa'?",
+    "Opción A": "10.0 - 10.9 g/dL",
+    "Opción B": "9.0 - 9.9 g/dL",
+    "Opción C": "7.0 - 8.9 g/dL",
+    "Opción D": "< 8.0 g/dL",
+    "Letra Correcta": "D"
+  },
+  {
+    "Nº": "105",
+    "Pregunta": "La NTS establece que la deficiencia de Hierro sin anemia se diagnostica cuando el nivel de Ferritina sérica (ug/L) en varones adolescentes de 12 a 17 años es:",
+    "Opción A": "< 12 ug/L",
+    "Opción B": "< 15 ug/L",
+    "Opción C": "< 30 ug/L",
+    "Opción D": "< 70 ug/L",
+    "Letra Correcta": "C"
+  },
+  {
+    "Nº": "106",
+    "Pregunta": "Para el tratamiento de la anemia leve en niños de 5 a 11 años (Tabla N° 16), ¿cuál es la dosis de Hierro elemental (mg/kg/día)?",
+    "Opción A": "1.0 mg/kg/día",
+    "Opción B": "2.0 mg/kg/día",
+    "Opción C": "3.0 mg/kg/día",
+    "Opción D": "4.0 mg/kg/día",
+    "Letra Correcta": "C"
+  },
+  {
+    "Nº": "107",
+    "Pregunta": "En el tratamiento de la anemia moderada en mujeres no gestantes (> 15 años) (Tabla N° 17), ¿cuál es la duración mínima del tratamiento?",
+    "Opción A": "3 meses",
+    "Opción B": "4 meses",
+    "Opción C": "6 meses",
+    "Opción D": "12 meses",
+    "Letra Correcta": "C"
+  },
+  {
+    "Nº": "108",
+    "Pregunta": "Según la Tabla N° 20, ¿cuál es el rango de Hemoglobina (g/dL) que clasifica la anemia en varones adolescentes de 15 a 17 años como 'Anemia Moderada'?",
+    "Opción A": "11.0 - 11.9 g/dL",
+    "Opción B": "12.0 - 12.9 g/dL",
+    "Opción C": "10.0 - 10.9 g/dL",
+    "Opción D": "< 10.0 g/dL",
+    "Letra Correcta": "B"
+  },
+  {
+    "Nº": "109",
+    "Pregunta": "Para el tratamiento de la anemia moderada en varones adolescentes de 15 a 17 años (Tabla N° 21), ¿cuál es la dosis diaria de Hierro elemental?",
+    "Opción A": "60 mg",
+    "Opción B": "120 mg",
+    "Opción C": "180 mg",
+    "Opción D": "240 mg",
+    "Letra Correcta": "B"
+  },
+  {
+    "Nº": "110",
+    "Pregunta": "En el tratamiento de la anemia severa en varones adolescentes de 15 a 17 años (Tabla N° 22), ¿cuál es la duración mínima del tratamiento?",
+    "Opción A": "3 meses",
+    "Opción B": "4 meses",
+    "Opción C": "6 meses",
+    "Opción D": "12 meses",
+    "Letra Correcta": "C"
+  },
+  {
+    "Nº": "111",
+    "Pregunta": "La anemia en varones de 60 a más años se define con un nivel de Hemoglobina (corregida por altitud) menor a:",
+    "Opción A": "12.0 g/dL",
+    "Opción B": "13.0 g/dL",
+    "Opción C": "14.0 g/dL",
+    "Opción D": "15.0 g/dL",
+    "Letra Correcta": "B"
+  },
+  {
+    "Nº": "112",
+    "Pregunta": "¿Cuál es el nivel de Hemoglobina (corregida por altitud) que define la anemia en mujeres de 60 a más años?",
+    "Opción A": "< 11.0 g/dL",
+    "Opción B": "< 12.0 g/dL",
+    "Opción C": "< 13.0 g/dL",
+    "Opción D": "< 14.0 g/dL",
+    "Letra Correcta": "B"
+  },
+  {
+    "Nº": "113",
+    "Pregunta": "De acuerdo con la Tabla N° 1, ¿cuál es el ajuste (resta) que debe aplicarse al valor de Hemoglobina observado para una altitud de 5000 a 5499 msnm?",
+    "Opción A": "3.1 g/dL",
+    "Opción B": "3.5 g/dL",
+    "Opción C": "4.0 g/dL",
+    "Opción D": "4.4 g/dL",
+    "Letra Correcta": "B"
+  },
+  {
+    "Nº": "114",
+    "Pregunta": "Según la Tabla N° 12, ¿cuál es el rango de Hemoglobina (g/dL) que clasifica la anemia en mujeres de 18 a 59 años como 'Anemia Leve'?",
+    "Opción A": "11.0 - 11.9 g/dL",
+    "Opción B": "10.0 - 10.9 g/dL",
+    "Opción C": "8.0 - 9.9 g/dL",
+    "Opción D": "< 8.0 g/dL",
+    "Letra Correcta": "A"
+  },
+  {
+    "Nº": "115",
+    "Pregunta": "La NTS establece que la deficiencia de Hierro sin anemia se diagnostica cuando el nivel de Ferritina sérica (ug/L) en mujeres adolescentes de 12 a 17 años es:",
+    "Opción A": "< 12 ug/L",
+    "Opción B": "< 15 ug/L",
+    "Opción C": "< 30 ug/L",
+    "Opción D": "< 70 ug/L",
+    "Letra Correcta": "B"
+  },
+  {
+    "Nº": "116",
+    "Pregunta": "Para el tratamiento de la anemia moderada en niños de 5 a 11 años (Tabla N° 16), ¿cuál es la dosis de Hierro elemental (mg/kg/día)?",
+    "Opción A": "3.0 mg/kg/día",
+    "Opción B": "4.0 mg/kg/día",
+    "Opción C": "5.0 mg/kg/día",
+    "Opción D": "6.0 mg/kg/día",
+    "Letra Correcta": "D"
+  },
+  {
+    "Nº": "117",
+    "Pregunta": "En el tratamiento de la anemia severa en mujeres de 18 a 59 años (Tabla N° 18), ¿cuál es la dosis diaria de Hierro elemental + Ácido Fólico?",
+    "Opción A": "120 mg Fe + 400 ug Ác. Fólico",
+    "Opción B": "240 mg Fe elemental + 400 ug Ác. Fólico",
+    "Opción C": "180 mg Fe elemental + 800 ug Ác. Fólico",
+    "Opción D": "300 mg Fe elemental + 400 ug Ác. Fólico",
+    "Letra Correcta": "B"
+  },
+  {
+    "Nº": "118",
+    "Pregunta": "Según la Tabla N° 20, ¿cuál es el rango de Hemoglobina (g/dL) que clasifica la anemia en varones adolescentes de 15 a 17 años como 'Anemia Severa'?",
+    "Opción A": "11.0 - 11.9 g/dL",
+    "Opción B": "10.0 - 10.9 g/dL",
+    "Opción C": "9.0 - 9.9 g/dL",
+    "Opción D": "< 10.0 g/dL",
+    "Letra Correcta": "D"
+  },
+  {
+    "Nº": "119",
+    "Pregunta": "Para el tratamiento de la anemia leve en mujeres de 18 a 59 años (Tabla N° 17), ¿cuál es la dosis diaria de Hierro elemental?",
+    "Opción A": "60 mg",
+    "Opción B": "120 mg",
+    "Opción C": "180 mg",
+    "Opción D": "240 mg",
+    "Letra Correcta": "A"
+  },
+  {
+    "Nº": "120",
+    "Pregunta": "En el tratamiento de la anemia moderada en mujeres de 18 a 59 años (Tabla N° 17), ¿cuál es la duración mínima del tratamiento?",
+    "Opción A": "3 meses",
+    "Opción B": "4 meses",
+    "Opción C": "6 meses",
+    "Opción D": "12 meses",
+    "Letra Correcta": "C"
+  },
+  {
+    "Nº": "121",
+    "Pregunta": "La anemia en varones de 60 a más años se define con un nivel de Hemoglobina (corregida por altitud) menor a:",
+    "Opción A": "12.0 g/dL",
+    "Opción B": "13.0 g/dL",
+    "Opción C": "14.0 g/dL",
+    "Opción D": "15.0 g/dL",
+    "Letra Correcta": "B"
+  },
+  {
+    "Nº": "122",
+    "Pregunta": "¿Cuál es el nivel de Hemoglobina (corregida por altitud) que define la anemia en mujeres de 60 a más años?",
+    "Opción A": "< 11.0 g/dL",
+    "Opción B": "< 12.0 g/dL",
+    "Opción C": "< 13.0 g/dL",
+    "Opción D": "< 14.0 g/dL",
+    "Letra Correcta": "B"
+  },
+  {
+    "Nº": "123",
+    "Pregunta": "De acuerdo con la Tabla N° 1, ¿cuál es el ajuste (resta) que debe aplicarse al valor de Hemoglobina observado para una altitud de 5500 a 5999 msnm?",
+    "Opción A": "3.5 g/dL",
+    "Opción B": "4.0 g/dL",
+    "Opción C": "4.4 g/dL",
+    "Opción D": "4.9 g/dL",
+    "Letra Correcta": "C"
+  },
+  {
+    "Nº": "124",
+    "Pregunta": "Según la Tabla N° 12, ¿cuál es el rango de Hemoglobina (g/dL) que clasifica la anemia en varones de 18 a 59 años como 'Anemia Moderada'?",
+    "Opción A": "12.0 - 12.9 g/dL",
+    "Opción B": "11.0 - 11.9 g/dL",
+    "Opción C": "9.0 - 10.9 g/dL",
+    "Opción D": "< 9.0 g/dL",
+    "Letra Correcta": "B"
+  },
+  {
+    "Nº": "125",
+    "Pregunta": "La NTS establece que la deficiencia de Hierro sin anemia se diagnostica cuando el nivel de Ferritina sérica (ug/L) en varones de 18 a 59 años es:",
+    "Opción A": "< 12 ug/L",
+    "Opción B": "< 15 ug/L",
+    "Opción C": "< 30 ug/L",
+    "Opción D": "< 70 ug/L",
+    "Letra Correcta": "C"
+  },
+  {
+    "Nº": "126",
+    "Pregunta": "Para el tratamiento de la anemia severa en niños de 5 a 11 años (Tabla N° 18), ¿cuál es la dosis de Hierro elemental (mg/kg/día)?",
+    "Opción A": "4.0 mg/kg/día",
+    "Opción B": "5.0 mg/kg/día",
+    "Opción C": "6.0 mg/kg/día",
+    "Opción D": "7.0 mg/kg/día",
+    "Letra Correcta": "D"
+  },
+  {
+    "Nº": "127",
+    "Pregunta": "En el tratamiento de la anemia moderada en mujeres de 18 a 59 años (Tabla N° 17), ¿cuál es la dosis diaria de Hierro elemental + Ácido Fólico?",
+    "Opción A": "60 mg Fe + 400 ug Ác. Fólico",
+    "Opción B": "120 mg Fe + 800 ug Ác. Fólico",
+    "Opción C": "60 mg Fe elemental + 400 ug Ác. Fólico",
+    "Opción D": "120 mg Fe elemental + 800 ug Ác. Fólico",
+    "Letra Correcta": "B"
+  },
+  {
+    "Nº": "128",
+    "Pregunta": "Según la Tabla N° 20, ¿cuál es el rango de Hemoglobina (g/dL) que clasifica la anemia en varones de 18 a 59 años como 'Anemia Leve'?",
+    "Opción A": "12.0 - 12.9 g/dL",
+    "Opción B": "11.0 - 11.9 g/dL",
+    "Opción C": "10.0 - 10.9 g/dL",
+    "Opción D": "< 10.0 g/dL",
+    "Letra Correcta": "A"
+  },
+  {
+    "Nº": "129",
+    "Pregunta": "Para el tratamiento de la anemia leve en varones de 18 a 59 años (Tabla N° 17), ¿cuál es la dosis diaria de Hierro elemental?",
+    "Opción A": "60 mg",
+    "Opción B": "120 mg",
+    "Opción C": "180 mg",
+    "Opción D": "240 mg",
+    "Letra Correcta": "A"
+  },
+  {
+    "Nº": "130",
+    "Pregunta": "En el tratamiento de la anemia moderada en varones de 18 a 59 años (Tabla N° 17), ¿cuál es la duración mínima del tratamiento?",
+    "Opción A": "3 meses",
+    "Opción B": "4 meses",
+    "Opción C": "6 meses",
+    "Opción D": "12 meses",
+    "Letra Correcta": "C"
+  },
+  {
+    "Nº": "131",
+    "Pregunta": "La anemia en varones de 60 a más años se define con un nivel de Hemoglobina (corregida por altitud) menor a:",
+    "Opción A": "12.0 g/dL",
+    "Opción B": "13.0 g/dL",
+    "Opción C": "14.0 g/dL",
+    "Opción D": "15.0 g/dL",
+    "Letra Correcta": "B"
+  },
+  {
+    "Nº": "132",
+    "Pregunta": "¿Cuál es el nivel de Hemoglobina (corregida por altitud) que define la anemia en mujeres de 60 a más años?",
+    "Opción A": "< 11.0 g/dL",
+    "Opción B": "< 12.0 g/dL",
+    "Opción C": "< 13.0 g/dL",
+    "Opción D": "< 14.0 g/dL",
+    "Letra Correcta": "B"
+  },
+  {
+    "Nº": "133",
+    "Pregunta": "De acuerdo con la Tabla N° 1, ¿cuál es el ajuste (resta) que debe aplicarse al valor de Hemoglobina observado para una altitud de 6000 a más msnm?",
+    "Opción A": "4.0 g/dL",
+    "Opción B": "4.4 g/dL",
+    "Opción C": "4.9 g/dL",
+    "Opción D": "5.4 g/dL",
+    "Letra Correcta": "C"
+  },
+  {
+    "Nº": "134",
+    "Pregunta": "Según la Tabla N° 12, ¿cuál es el rango de Hemoglobina (g/dL) que clasifica la anemia en mujeres de 60 a más años como 'Anemia Leve'?",
+    "Opción A": "11.0 - 11.9 g/dL",
+    "Opción B": "10.0 - 10.9 g/dL",
+    "Opción C": "8.0 - 9.9 g/dL",
+    "Opción D": "< 8.0 g/dL",
+    "Letra Correcta": "A"
+  },
+  {
+    "Nº": "135",
+    "Pregunta": "La NTS establece que la deficiencia de Hierro sin anemia se diagnostica cuando el nivel de Ferritina sérica (ug/L) en mujeres de 18 a 59 años es:",
+    "Opción A": "< 12 ug/L",
+    "Opción B": "< 15 ug/L",
+    "Opción C": "< 30 ug/L",
+    "Opción D": "< 70 ug/L",
+    "Letra Correcta": "B"
+  },
+  {
+    "Nº": "136",
+    "Pregunta": "Para el tratamiento de la anemia leve en niños de 5 a 11 años (Tabla N° 16), ¿cuál es la duración mínima del tratamiento?",
+    "Opción A": "3 meses",
+    "Opción B": "4 meses",
+    "Opción C": "6 meses",
+    "Opción D": "12 meses",
+    "Letra Correcta": "C"
+  },
+  {
+    "Nº": "137",
+    "Pregunta": "En el tratamiento de la anemia severa en varones de 18 a 59 años (Tabla N° 18), ¿cuál es la dosis diaria de Hierro elemental + Ácido Fólico?",
+    "Opción A": "120 mg Fe + 400 ug Ác. Fólico",
+    "Opción B": "240 mg Fe elemental + 400 ug Ác. Fólico",
+    "Opción C": "180 mg Fe elemental + 800 ug Ác. Fólico",
+    "Opción D": "300 mg Fe elemental + 400 ug Ác. Fólico",
+    "Letra Correcta": "B"
+  },
+  {
+    "Nº": "138",
+    "Pregunta": "Según la Tabla N° 20, ¿cuál es el rango de Hemoglobina (g/dL) que clasifica la anemia en mujeres de 18 a 59 años como 'Anemia Severa'?",
+    "Opción A": "10.0 - 10.9 g/dL",
+    "Opción B": "9.0 - 9.9 g/dL",
+    "Opción C": "8.0 - 8.9 g/dL",
+    "Opción D": "< 8.0 g/dL",
+    "Letra Correcta": "D"
+  },
+  {
+    "Nº": "139",
+    "Pregunta": "Para el tratamiento de la anemia moderada en varones de 60 a más años (Tabla N° 17), ¿cuál es la dosis diaria de Hierro elemental?",
+    "Opción A": "60 mg",
+    "Opción B": "120 mg",
+    "Opción C": "180 mg",
+    "Opción D": "240 mg",
+    "Letra Correcta": "B"
+  },
+  {
+    "Nº": "140",
+    "Pregunta": "En el tratamiento de la anemia severa en varones de 60 a más años (Tabla N° 18), ¿cuál es la duración mínima del tratamiento?",
+    "Opción A": "3 meses",
+    "Opción B": "4 meses",
+    "Opción C": "6 meses",
+    "Opción D": "12 meses",
+    "Letra Correcta": "C"
+  },
+  {
+    "Nº": "141",
+    "Pregunta": "La anemia en varones de 60 a más años se define con un nivel de Hemoglobina (corregida por altitud) menor a:",
+    "Opción A": "12.0 g/dL",
+    "Opción B": "13.0 g/dL",
+    "Opción C": "14.0 g/dL",
+    "Opción D": "15.0 g/dL",
+    "Letra Correcta": "B"
+  },
+  {
+    "Nº": "142",
+    "Pregunta": "¿Cuál es el nivel de Hemoglobina (corregida por altitud) que define la anemia en mujeres de 60 a más años?",
+    "Opción A": "< 11.0 g/dL",
+    "Opción B": "< 12.0 g/dL",
+    "Opción C": "< 13.0 g/dL",
+    "Opción D": "< 14.0 g/dL",
+    "Letra Correcta": "B"
+  },
+  {
+    "Nº": "143",
+    "Pregunta": "De acuerdo con la Tabla N° 1, ¿cuál es el ajuste (resta) que debe aplicarse al valor de Hemoglobina observado para una altitud de 6500 a más msnm?",
+    "Opción A": "4.4 g/dL",
+    "Opción B": "4.9 g/dL",
+    "Opción C": "5.4 g/dL",
+    "Opción D": "5.9 g/dL",
+    "Letra Correcta": "B"
+  },
+  {
+    "Nº": "144",
+    "Pregunta": "Según la Tabla N° 12, ¿cuál es el rango de Hemoglobina (g/dL) que clasifica la anemia en varones de 60 a más años como 'Anemia Moderada'?",
+    "Opción A": "12.0 - 12.9 g/dL",
+    "Opción B": "11.0 - 11.9 g/dL",
+    "Opción C": "9.0 - 10.9 g/dL",
+    "Opción D": "< 9.0 g/dL",
+    "Letra Correcta": "B"
+  },
+  {
+    "Nº": "145",
+    "Pregunta": "La NTS establece que la deficiencia de Hierro sin anemia se diagnostica cuando el nivel de Ferritina sérica (ug/L) en varones de 60 a más años es:",
+    "Opción A": "< 12 ug/L",
+    "Opción B": "< 15 ug/L",
+    "Opción C": "< 30 ug/L",
+    "Opción D": "< 70 ug/L",
+    "Letra Correcta": "C"
+  },
+  {
+    "Nº": "146",
+    "Pregunta": "Para el tratamiento de la anemia leve en varones de 60 a más años (Tabla N° 17), ¿cuál es la dosis diaria de Hierro elemental?",
+    "Opción A": "60 mg",
+    "Opción B": "120 mg",
+    "Opción C": "180 mg",
+    "Opción D": "240 mg",
+    "Letra Correcta": "A"
+  },
+  {
+    "Nº": "147",
+    "Pregunta": "En el tratamiento de la anemia severa en mujeres de 60 a más años (Tabla N° 18), ¿cuál es la dosis diaria de Hierro elemental + Ácido Fólico?",
+    "Opción A": "120 mg Fe + 400 ug Ác. Fólico",
+    "Opción B": "240 mg Fe elemental + 400 ug Ác. Fólico",
+    "Opción C": "180 mg Fe elemental + 800 ug Ác. Fólico",
+    "Opción D": "300 mg Fe elemental + 400 ug Ác. Fólico",
+    "Letra Correcta": "B"
+  },
+  {
+    "Nº": "148",
+    "Pregunta": "Según la Tabla N° 20, ¿cuál es el rango de Hemoglobina (g/dL) que clasifica la anemia en varones de 60 a más años como 'Anemia Severa'?",
+    "Opción A": "11.0 - 11.9 g/dL",
+    "Opción B": "10.0 - 10.9 g/dL",
+    "Opción C": "9.0 - 9.9 g/dL",
+    "Opción D": "< 9.0 g/dL",
+    "Letra Correcta": "D"
+  },
+  {
+    "Nº": "149",
+    "Pregunta": "Para el tratamiento de la anemia moderada en mujeres de 60 a más años (Tabla N° 17), ¿cuál es la dosis diaria de Hierro elemental?",
+    "Opción A": "60 mg",
+    "Opción B": "120 mg",
+    "Opción C": "180 mg",
+    "Opción D": "240 mg",
+    "Letra Correcta": "B"
+  },
+  {
+    "Nº": "150",
+    "Pregunta": "En el tratamiento de la anemia severa en mujeres de 60 a más años (Tabla N° 18), ¿cuál es la duración mínima del tratamiento?",
+    "Opción A": "3 meses",
+    "Opción B": "4 meses",
+    "Opción C": "6 meses",
+    "Opción D": "12 meses",
+    "Letra Correcta": "C"
+  }
+];
+
+        let selectedQuestions = [];
+        let currentQuestionIndex = 0;
+        let correctAnswers = 0;
+        let incorrectAnswers = 0;
+        let timer;
+        let timeRemaining = 900; // 15 minutos en segundos
+        let startTime;
+
+        function shuffleArray(array) {
+            const newArray = [...array];
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+            }
+            return newArray;
+        }
+
+        function startQuiz() {
+            // Seleccionar 20 preguntas aleatorias
+            const shuffled = shuffleArray(allQuestions);
+            selectedQuestions = shuffled.slice(0, Math.min(20, allQuestions.length));
+            
+            // Ocultar splash screen y mostrar quiz
+            document.getElementById('splashScreen').style.display = 'none';
+            document.getElementById('quizScreen').style.display = 'block';
+            
+            // Iniciar temporizador
+            startTime = Date.now();
+            startTimer();
+            
+            // Mostrar primera pregunta
+            showQuestion();
+        }
+
+        function startTimer() {
+            timer = setInterval(() => {
+                timeRemaining--;
+                updateTimerDisplay();
+                
+                if (timeRemaining <= 0) {
+                    clearInterval(timer);
+                    endQuiz();
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeRemaining / 60);
+            const seconds = timeRemaining % 60;
+            const timerElement = document.getElementById('timer');
+            timerElement.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+            
+            // Advertencia si quedan menos de 5 minutos
+            if (timeRemaining <= 300) {
+                timerElement.classList.add('warning');
+            }
+        }
+
+        function showQuestion() {
+            const question = selectedQuestions[currentQuestionIndex];
+            
+            // Actualizar progreso
+            document.getElementById('progress').textContent = 
+                `Pregunta ${currentQuestionIndex + 1} de ${selectedQuestions.length}`;
+            
+            // Mostrar pregunta
+            document.getElementById('questionText').textContent = question.Pregunta;
+            
+            // Crear botones de opciones
+            const optionsContainer = document.getElementById('optionsContainer');
+            optionsContainer.innerHTML = '';
+            
+            const options = ['A', 'B', 'C', 'D'];
+            options.forEach(letter => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.textContent = `${letter}) ${question['Opción ' + letter]}`; // ¡Añadir el acento y la O mayúscula!
+                btn.onclick = () => selectAnswer(letter);
+                optionsContainer.appendChild(btn);
+            });
+            
+            // Ocultar botón continuar
+            document.getElementById('continueBtn').style.display = 'none';
+        }
+
+        function selectAnswer(selectedLetter) {
+            const question = selectedQuestions[currentQuestionIndex];
+            const correctLetter = question['Letra Correcta'];
+            const optionBtns = document.querySelectorAll('.option-btn');
+            
+            // Deshabilitar todos los botones
+            optionBtns.forEach(btn => btn.disabled = true);
+            
+            // Aplicar colores
+            if (selectedLetter === correctLetter) {
+                // Respuesta correcta
+                correctAnswers++;
+                optionBtns.forEach(btn => {
+                    if (btn.textContent.startsWith(selectedLetter)) {
+                        btn.classList.add('correct');
+                    }
+                });
+            } else {
+                // Respuesta incorrecta
+                incorrectAnswers++;
+                optionBtns.forEach(btn => {
+                    if (btn.textContent.startsWith(selectedLetter)) {
+                        btn.classList.add('incorrect');
+                    }
+                    if (btn.textContent.startsWith(correctLetter)) {
+                        btn.classList.add('correct');
+                    }
+                });
+            }
+            
+            // Mostrar botón continuar
+            const continueBtn = document.getElementById('continueBtn');
+            continueBtn.style.display = 'block';
+            
+            // Cambiar texto a "Finalizar" en la última pregunta
+            if (currentQuestionIndex === selectedQuestions.length - 1) {
+                continueBtn.textContent = 'Finalizar';
+            }
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            
+            if (currentQuestionIndex >= selectedQuestions.length) {
+                endQuiz();
+            } else {
+                showQuestion();
+            }
+        }
+
+        function backToStart() {
+        // Esto redirige al usuario a la página de inicio.
+        // **IMPORTANTE:** Reemplaza 'index.html' con la URL correcta de tu inicio.
+        window.location.href = 'Simulacro.html'; 
+        
+        // Si tu inicio es la raíz del sitio, usa:
+        // window.location.href = '/'; 
+    }
+        function endQuiz() {
+            clearInterval(timer);
+            
+            // Calcular tiempo usado
+            const timeUsed = 1200 - timeRemaining;
+            const minutesUsed = Math.floor(timeUsed / 60);
+            const secondsUsed = timeUsed % 60;
+            
+            // Ocultar quiz screen y mostrar resultados
+            document.getElementById('quizScreen').style.display = 'none';
+            document.getElementById('resultsScreen').style.display = 'block';
+            
+            // Mostrar resultados
+            const percentage = Math.round((correctAnswers / selectedQuestions.length) * 100);
+            document.getElementById('finalScore').textContent = 
+                `${correctAnswers}/${selectedQuestions.length}`;
+            document.getElementById('percentage').textContent = `${percentage}%`;
+            document.getElementById('correctCount').textContent = correctAnswers;
+            document.getElementById('incorrectCount').textContent = incorrectAnswers;
+            document.getElementById('timeUsed').textContent = 
+                `${minutesUsed}:${secondsUsed.toString().padStart(2, '0')}`;
+        }
+    </script>
+</body>
+
+</html>
