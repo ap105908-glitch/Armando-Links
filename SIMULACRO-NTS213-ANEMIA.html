@@ -2,13 +2,14 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title>Simulacro NTS213 ANEMIA</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: rgba(0,0,0,0);
         }
 
         body {
@@ -18,7 +19,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 20px;
+            padding: 10px;
         }
 
         .container {
@@ -27,7 +28,7 @@
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             max-width: 800px;
             width: 100%;
-            padding: 40px;
+            padding: 20px;
             animation: fadeIn 0.5s ease;
         }
 
@@ -42,22 +43,23 @@
 
         .splash-screen h1 {
             color: #667eea;
-            font-size: 2.5em;
-            margin-bottom: 30px;
+            font-size: clamp(1.5rem, 5vw, 2.5rem);
+            margin-bottom: 20px;
+            line-height: 1.2;
         }
 
         .instructions {
             background: #f8f9fa;
-            padding: 25px;
+            padding: 20px;
             border-radius: 15px;
-            margin: 30px 0;
+            margin: 20px 0;
             text-align: left;
         }
 
         .instructions h2 {
             color: #333;
             margin-bottom: 15px;
-            font-size: 1.3em;
+            font-size: clamp(1.1rem, 3vw, 1.3rem);
         }
 
         .instructions ul {
@@ -66,9 +68,10 @@
         }
 
         .instructions li {
-            padding: 10px 0;
+            padding: 8px 0;
             color: #555;
-            font-size: 1.05em;
+            font-size: clamp(0.9rem, 2.5vw, 1.05rem);
+            line-height: 1.5;
         }
 
         .instructions li:before {
@@ -82,17 +85,21 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
-            padding: 15px 40px;
-            font-size: 1.2em;
+            padding: 18px 40px;
+            font-size: clamp(1rem, 3vw, 1.2rem);
             border-radius: 50px;
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            width: 100%;
+            max-width: 300px;
+            min-height: 56px;
+            font-weight: 600;
         }
 
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        .btn-primary:active {
+            transform: scale(0.95);
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4);
         }
 
         .quiz-screen {
@@ -103,13 +110,15 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
             border-bottom: 2px solid #e0e0e0;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
         .timer {
-            font-size: 1.5em;
+            font-size: clamp(1.2rem, 4vw, 1.5rem);
             font-weight: bold;
             color: #667eea;
         }
@@ -125,42 +134,46 @@
         }
 
         .progress {
-            font-size: 1.1em;
+            font-size: clamp(0.9rem, 3vw, 1.1rem);
             color: #666;
         }
 
         .question-container {
-            margin: 30px 0;
+            margin: 20px 0;
         }
 
         .question-text {
-            font-size: 1.3em;
+            font-size: clamp(1.1rem, 3.5vw, 1.3rem);
             color: #333;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             line-height: 1.6;
         }
 
         .options {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 12px;
         }
 
         .option-btn {
             background: white;
             border: 2px solid #e0e0e0;
-            padding: 18px 25px;
-            font-size: 1.1em;
+            padding: 18px 20px;
+            font-size: clamp(0.95rem, 3vw, 1.1rem);
             text-align: left;
             border-radius: 12px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
+            min-height: 56px;
+            display: flex;
+            align-items: center;
+            line-height: 1.4;
         }
 
-        .option-btn:hover:not(:disabled) {
-            border-color: #667eea;
+        .option-btn:active:not(:disabled) {
+            transform: scale(0.98);
             background: #f8f9ff;
-            transform: translateX(5px);
+            border-color: #667eea;
         }
 
         .option-btn:disabled {
@@ -181,27 +194,12 @@
             font-weight: bold;
         }
 
-        /* Este bloque es el ÚNICO que fuerza la alineación horizontal */
         .quiz-navigation-buttons {
-            display: flex;       
-            gap: 380px;           
+            display: flex;
+            gap: 15px;
             width: 100%;
-
-            /* 🚨 ESTO ES LO QUE LOS DIVIDE PERMANENTEMENTE 🚨 */
-            justify-content: space-between;
-
-            margin-top: 30px;
-            
-            /* 🚨 ESTO ES LO QUE LOS DIVIDE PERMANENTEMENTE 🚨 */
-            justify-content: space-between;
-        }
-
-            #backToStartBtn {
-
-            /* 🚨 ESTO LO EMPUJA A LA DERECHA 🚨 */
-
-            margin-left: auto;
-
+            margin-top: 25px;
+            flex-direction: column;
         }
 
         .continue-btn {
@@ -211,16 +209,22 @@
             background: #667eea;
             color: white;
             border: none;
-            padding: 12px 35px;
-            font-size: 1.1em;
+            padding: 15px 25px;
+            font-size: clamp(1rem, 3vw, 1.1rem);
             border-radius: 25px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
+            width: 100%;
+            min-height: 56px;
+            font-weight: 600;
         }
 
-        .continue-btn:hover {
-            background: #764ba2;
-            transform: translateY(-2px);
+        .continue-btn:active {
+            transform: scale(0.95);
+        }
+
+        #backToStartBtn {
+            background: #6c757d;
         }
 
         .results-screen {
@@ -230,51 +234,75 @@
 
         .results-screen h1 {
             color: #667eea;
-            font-size: 2.5em;
-            margin-bottom: 30px;
+            font-size: clamp(1.5rem, 5vw, 2.5rem);
+            margin-bottom: 20px;
         }
 
         .score-display {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 40px;
+            padding: 30px 20px;
             border-radius: 20px;
-            margin: 30px 0;
+            margin: 20px 0;
         }
 
         .score-display .big-score {
-            font-size: 4em;
+            font-size: clamp(2.5rem, 10vw, 4rem);
             font-weight: bold;
             margin: 20px 0;
         }
 
         .score-details {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 20px;
-            margin: 30px 0;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
         }
 
         .score-item {
             background: #f8f9fa;
-            padding: 20px;
+            padding: 15px;
             border-radius: 12px;
         }
 
         .score-item h3 {
             color: #666;
-            font-size: 0.9em;
+            font-size: clamp(0.75rem, 2vw, 0.9rem);
             margin-bottom: 10px;
         }
 
         .score-item p {
-            font-size: 1.8em;
+            font-size: clamp(1.3rem, 4vw, 1.8rem);
             font-weight: bold;
             color: #333;
         }
 
         .hidden {
             display: none;
+        }
+
+        @media (min-width: 640px) {
+            .container {
+                padding: 40px;
+            }
+
+            .quiz-navigation-buttons {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+
+            .continue-btn {
+                width: auto;
+                min-width: 150px;
+            }
+
+            .instructions {
+                padding: 25px;
+            }
+
+            .option-btn {
+                padding: 18px 25px;
+            }
         }
     </style>
 </head>
@@ -294,7 +322,7 @@
                     <li>Haz clic en "Continuar" para avanzar a la siguiente pregunta</li>
                 </ul>
             </div>
-            <button class="btn-primary" onclick="startQuiz()">Iniciar Simulacro</button>
+            <button class="btn-primary" id="startQuizBtn">Iniciar Simulacro</button>
         </div>
 
         <!-- Quiz Screen -->
@@ -307,9 +335,10 @@
                 <div class="question-text" id="questionText"></div>
                 <div class="options" id="optionsContainer"></div>
 
-            <div class="quiz-navigation-buttons">
-                <button class="continue-btn" id="continueBtn" onclick="nextQuestion()">Continuar</button> 
-                <button class="continue-btn" id="backToStartBtn" onclick="backToStart()">Volver al inicio</button>        
+                <div class="quiz-navigation-buttons">
+                    <button class="continue-btn" id="continueBtn">Continuar</button> 
+                    <button class="continue-btn" id="backToStartBtn">Volver al inicio</button>        
+                </div>
             </div>
         </div>
 
@@ -318,7 +347,7 @@
             <h1>¡Cuestionario Finalizado!</h1>
             <div class="score-display">
                 <div>Tu Puntuación</div>
-                <div class="big-score" id="finalScore">0/40</div>
+                <div class="big-score" id="finalScore">0/20</div>
                 <div id="percentage">0%</div>
             </div>
             <div class="score-details">
@@ -335,12 +364,13 @@
                     <p id="timeUsed">0:00</p>
                 </div>
             </div>
-            <button class="btn-primary" onclick="location.reload()">Reintentar</button>
+            <button class="btn-primary" id="retryBtn">Reintentar</button>
         </div>
     </div>
 
     <script>
-        // Base de datos de preguntas (reemplazar con las 150 preguntas completas)
+
+    // Base de datos de preguntas (150 preguntas completas)
         const allQuestions = [
   {
     "Nº": "1",
@@ -1692,16 +1722,18 @@
     "Opción D": "12 meses",
     "Letra Correcta": "C"
   }
-];
+        ];
 
+        // Variables globales
         let selectedQuestions = [];
         let currentQuestionIndex = 0;
         let correctAnswers = 0;
         let incorrectAnswers = 0;
         let timer;
-        let timeRemaining = 900; // 15 minutos en segundos
+        let timeRemaining = 900;
         let startTime;
 
+        // Función para mezclar array
         function shuffleArray(array) {
             const newArray = [...array];
             for (let i = newArray.length - 1; i > 0; i--) {
@@ -1711,23 +1743,27 @@
             return newArray;
         }
 
+        // Iniciar quiz
         function startQuiz() {
-            // Seleccionar 20 preguntas aleatorias
+            console.log('Iniciando quiz...');
+            
+            if (!allQuestions || allQuestions.length === 0) {
+                alert('Error: No se han cargado las preguntas del cuestionario.');
+                return;
+            }
+
             const shuffled = shuffleArray(allQuestions);
             selectedQuestions = shuffled.slice(0, Math.min(20, allQuestions.length));
             
-            // Ocultar splash screen y mostrar quiz
             document.getElementById('splashScreen').style.display = 'none';
             document.getElementById('quizScreen').style.display = 'block';
             
-            // Iniciar temporizador
             startTime = Date.now();
             startTimer();
-            
-            // Mostrar primera pregunta
             showQuestion();
         }
 
+        // Timer
         function startTimer() {
             timer = setInterval(() => {
                 timeRemaining--;
@@ -1746,23 +1782,20 @@
             const timerElement = document.getElementById('timer');
             timerElement.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
             
-            // Advertencia si quedan menos de 5 minutos
             if (timeRemaining <= 300) {
                 timerElement.classList.add('warning');
             }
         }
 
+        // Mostrar pregunta
         function showQuestion() {
             const question = selectedQuestions[currentQuestionIndex];
             
-            // Actualizar progreso
             document.getElementById('progress').textContent = 
                 `Pregunta ${currentQuestionIndex + 1} de ${selectedQuestions.length}`;
             
-            // Mostrar pregunta
             document.getElementById('questionText').textContent = question.Pregunta;
             
-            // Crear botones de opciones
             const optionsContainer = document.getElementById('optionsContainer');
             optionsContainer.innerHTML = '';
             
@@ -1770,26 +1803,32 @@
             options.forEach(letter => {
                 const btn = document.createElement('button');
                 btn.className = 'option-btn';
-                btn.textContent = `${letter}) ${question['Opción ' + letter]}`; // ¡Añadir el acento y la O mayúscula!
-                btn.onclick = () => selectAnswer(letter);
+                btn.textContent = `${letter}) ${question['Opción ' + letter]}`;
+                btn.addEventListener('click', () => selectAnswer(letter));
+                btn.addEventListener('touchend', (e) => {
+                    e.preventDefault();
+                    selectAnswer(letter);
+                });
                 optionsContainer.appendChild(btn);
             });
             
-            // Ocultar botón continuar
-            document.getElementById('continueBtn').style.display = 'none';
+            const continueBtn = document.getElementById('continueBtn');
+            continueBtn.style.display = 'none';
+            continueBtn.textContent = 'Continuar';
         }
 
+        // Seleccionar respuesta
         function selectAnswer(selectedLetter) {
             const question = selectedQuestions[currentQuestionIndex];
             const correctLetter = question['Letra Correcta'];
             const optionBtns = document.querySelectorAll('.option-btn');
             
-            // Deshabilitar todos los botones
-            optionBtns.forEach(btn => btn.disabled = true);
+            optionBtns.forEach(btn => {
+                btn.disabled = true;
+                btn.style.pointerEvents = 'none';
+            });
             
-            // Aplicar colores
             if (selectedLetter === correctLetter) {
-                // Respuesta correcta
                 correctAnswers++;
                 optionBtns.forEach(btn => {
                     if (btn.textContent.startsWith(selectedLetter)) {
@@ -1797,7 +1836,6 @@
                     }
                 });
             } else {
-                // Respuesta incorrecta
                 incorrectAnswers++;
                 optionBtns.forEach(btn => {
                     if (btn.textContent.startsWith(selectedLetter)) {
@@ -1809,16 +1847,15 @@
                 });
             }
             
-            // Mostrar botón continuar
             const continueBtn = document.getElementById('continueBtn');
-            continueBtn.style.display = 'block';
+            continueBtn.style.display = 'flex';
             
-            // Cambiar texto a "Finalizar" en la última pregunta
             if (currentQuestionIndex === selectedQuestions.length - 1) {
                 continueBtn.textContent = 'Finalizar';
             }
         }
 
+        // Siguiente pregunta
         function nextQuestion() {
             currentQuestionIndex++;
             
@@ -1829,27 +1866,24 @@
             }
         }
 
+        // Volver al inicio
         function backToStart() {
-        // Esto redirige al usuario a la página de inicio.
-        // **IMPORTANTE:** Reemplaza 'index.html' con la URL correcta de tu inicio.
-        window.location.href = 'Simulacro.html'; 
-        
-        // Si tu inicio es la raíz del sitio, usa:
-        // window.location.href = '/'; 
-    }
+            if (confirm('¿Estás seguro de que quieres volver al inicio? Se perderá tu progreso actual.')) {
+                location.reload();
+            }
+        }
+
+        // Finalizar quiz
         function endQuiz() {
             clearInterval(timer);
             
-            // Calcular tiempo usado
-            const timeUsed = 1200 - timeRemaining;
+            const timeUsed = 900 - timeRemaining;
             const minutesUsed = Math.floor(timeUsed / 60);
             const secondsUsed = timeUsed % 60;
             
-            // Ocultar quiz screen y mostrar resultados
             document.getElementById('quizScreen').style.display = 'none';
             document.getElementById('resultsScreen').style.display = 'block';
             
-            // Mostrar resultados
             const percentage = Math.round((correctAnswers / selectedQuestions.length) * 100);
             document.getElementById('finalScore').textContent = 
                 `${correctAnswers}/${selectedQuestions.length}`;
@@ -1859,10 +1893,49 @@
             document.getElementById('timeUsed').textContent = 
                 `${minutesUsed}:${secondsUsed.toString().padStart(2, '0')}`;
         }
+
+        // Event Listeners
+        window.addEventListener('load', function() {
+            console.log('Página cargada');
+            
+            const startBtn = document.getElementById('startQuizBtn');
+            const continueBtn = document.getElementById('continueBtn');
+            const backBtn = document.getElementById('backToStartBtn');
+            const retryBtn = document.getElementById('retryBtn');
+
+            // Botón iniciar
+            startBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                console.log('Click en iniciar');
+                startQuiz();
+            });
+            
+            startBtn.addEventListener('touchstart', function(e) {
+                e.preventDefault();
+                console.log('Touch en iniciar');
+                startQuiz();
+            });
+
+            // Botón continuar
+            continueBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                nextQuestion();
+            });
+
+            // Botón volver
+            backBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                backToStart();
+            });
+
+            // Botón reintentar
+            retryBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                location.reload();
+            });
+
+            console.log('Event listeners configurados');
+        });
     </script>
 </body>
-
 </html>
-
-
-
