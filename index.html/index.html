@@ -1,0 +1,1234 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dile Adiós a los Castigos y Gritos | Guía de Crianza Respetuosa</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.5;
+            color: #0a0a0a;
+            background: #fafaf9;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        h1, h2, h3, h4 {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Hero Section */
+        .hero {
+            position: relative;
+            overflow: hidden;
+            padding: 120px 20px 140px;
+            text-align: center;
+            color: white;
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(160deg, #1a1a1a 0%, #0a0a0a 100%);
+        }
+        
+        .hero-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+            z-index: 0;
+            pointer-events: none;
+            filter: brightness(0.35) contrast(1.1) saturate(1.2);
+            opacity: 0.7;
+        }
+        
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at center, transparent 0%, rgba(10,10,10,0.6) 70%, rgba(10,10,10,0.9) 100%);
+            z-index: 0;
+            pointer-events: none;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 1100px;
+            width: 100%;
+            padding: 0 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+            align-items: center;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            line-height: 1.1;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            text-shadow: 0 4px 30px rgba(0,0,0,0.5);
+            max-width: 950px;
+        }
+        
+        .hero p {
+            font-size: clamp(1.1rem, 2vw, 1.5rem);
+            line-height: 1.6;
+            opacity: 0.95;
+            font-weight: 400;
+            max-width: 720px;
+            text-shadow: 0 2px 20px rgba(0,0,0,0.4);
+        }
+        
+        /* CTA Button */
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #fff 0%, #f5f5f5 100%);
+            color: #0a0a0a;
+            padding: 22px 50px;
+            border-radius: 100px;
+            font-weight: 700;
+            text-transform: none;
+            letter-spacing: -0.01em;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.1) inset;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.15em;
+            line-height: 1;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.2) inset;
+        }
+
+        .cta-button:active {
+            transform: translateY(-1px) scale(0.98);
+        }
+        
+        /* Problem Section */
+        .problem-section {
+            padding: 140px 20px;
+            background: #fff;
+            position: relative;
+        }
+        
+        .problem-section h2 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            color: #0a0a0a;
+            text-align: center;
+            margin-bottom: 80px;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+        }
+        
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .problem-card {
+            background: #fafaf9;
+            padding: 50px 40px;
+            border-radius: 24px;
+            border: 1px solid #e5e5e5;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .problem-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 0;
+            background: linear-gradient(180deg, #0a0a0a, #404040);
+            transition: height 0.4s ease;
+        }
+        
+        .problem-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.12);
+            border-color: #d4d4d4;
+        }
+        
+        .problem-card:hover::before {
+            height: 100%;
+        }
+        
+        .problem-card h3 {
+            color: #0a0a0a;
+            font-size: 1.65em;
+            margin-bottom: 16px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+        
+        .problem-card p {
+            color: #525252;
+            font-size: 1.1em;
+            line-height: 1.7;
+            font-weight: 400;
+        }
+        
+        /* Book Presentation */
+        .book-presentation {
+            padding: 140px 20px;
+            background: #0a0a0a;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .book-presentation::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 60%;
+            height: 100%;
+            background: radial-gradient(ellipse at top right, rgba(255,255,255,0.03) 0%, transparent 60%);
+            pointer-events: none;
+        }
+        
+        .book-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.1fr;
+            gap: 100px;
+            align-items: center;
+            max-width: 1300px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .book-mockup {
+            text-align: center;
+            position: relative;
+        }
+
+        .book-image {
+            display: block;
+            width: 100%;
+            max-width: 450px;
+            height: auto;
+            border-radius: 16px;
+            box-shadow: 0 40px 120px rgba(0,0,0,0.6);
+            object-fit: cover;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            margin: 0 auto;
+        }
+        
+        .book-mockup:hover .book-image {
+            transform: scale(1.03);
+        }
+        
+        .book-details h3 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            margin-bottom: 40px;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.2;
+        }
+        
+        .features-list {
+            list-style: none;
+        }
+        
+        .features-list li {
+            padding: 24px 0;
+            font-size: 1.25em;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            align-items: flex-start;
+            font-weight: 400;
+            line-height: 1.6;
+            transition: padding-left 0.3s ease;
+        }
+        
+        .features-list li:hover {
+            padding-left: 10px;
+        }
+        
+        .features-list li:before {
+            content: '→';
+            color: #fff;
+            font-weight: 400;
+            font-size: 1.3em;
+            margin-right: 20px;
+            opacity: 0.7;
+            min-width: 24px;
+        }
+        
+        /* Chapters Section */
+        .chapters-section {
+            padding: 140px 20px;
+            background: #fafaf9;
+        }
+        
+        .chapters-section h2 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            color: #0a0a0a;
+            text-align: center;
+            margin-bottom: 100px;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+        }
+        
+        .chapters-timeline {
+            max-width: 850px;
+            margin: 0 auto;
+        }
+        
+        .chapter-item {
+            display: grid;
+            grid-template-columns: 70px 1fr;
+            gap: 40px;
+            margin-bottom: 50px;
+            position: relative;
+        }
+        
+        .chapter-item:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            left: 35px;
+            top: 70px;
+            width: 1px;
+            height: calc(100% + 50px);
+            background: linear-gradient(180deg, #d4d4d4 0%, transparent 100%);
+        }
+        
+        .chapter-number {
+            background: #0a0a0a;
+            color: white;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.5em;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            z-index: 1;
+            position: relative;
+        }
+        
+        .chapter-content {
+            background: white;
+            padding: 32px 40px;
+            border-radius: 20px;
+            border: 1px solid #e5e5e5;
+            transition: all 0.3s ease;
+        }
+        
+        .chapter-content:hover {
+            transform: translateX(8px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+            border-color: #d4d4d4;
+        }
+        
+        .chapter-content h4 {
+            color: #0a0a0a;
+            margin-bottom: 10px;
+            font-size: 1.4em;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+        }
+        
+        .chapter-content p {
+            color: #525252;
+            font-size: 1.05em;
+            line-height: 1.6;
+        }
+        
+        /* Benefits Section */
+        .benefits-section {
+            padding: 140px 20px;
+            background: #fff;
+            position: relative;
+        }
+        
+        .benefits-section h2 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            text-align: center;
+            margin-bottom: 100px;
+            font-weight: 800;
+            color: #0a0a0a;
+            letter-spacing: -0.03em;
+        }
+        
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 50px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .benefit-card {
+            background: #fafaf9;
+            color: #0a0a0a;
+            padding: 50px 40px;
+            border-radius: 24px;
+            text-align: left;
+            border: 1px solid #e5e5e5;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .benefit-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #0a0a0a 0%, #737373 100%);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s ease;
+        }
+        
+        .benefit-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .benefit-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.12);
+            border-color: #d4d4d4;
+        }
+        
+        .benefit-card h3 {
+            font-size: 1.6em;
+            margin-bottom: 16px;
+            color: #0a0a0a;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+        
+        .benefit-card p {
+            color: #525252;
+            font-size: 1.1em;
+            line-height: 1.7;
+        }
+        
+        /* Testimonials */
+        .testimonials-section {
+            padding: 140px 20px;
+            background: #0a0a0a;
+            color: white;
+        }
+        
+        .testimonials-section h2 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            color: #fff;
+            text-align: center;
+            margin-bottom: 100px;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+        }
+        
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 50px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .testimonial-card {
+            background: rgba(255,255,255,0.05);
+            padding: 50px 45px;
+            border-radius: 24px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.4s ease;
+        }
+        
+        .testimonial-card:hover {
+            transform: translateY(-8px);
+            background: rgba(255,255,255,0.08);
+            border-color: rgba(255,255,255,0.2);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.4);
+        }
+        
+        .testimonial-quote {
+            font-size: 1.2em;
+            line-height: 1.8;
+            color: rgba(255,255,255,0.95);
+            margin-bottom: 35px;
+            font-style: normal;
+            font-weight: 400;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .author-avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #fff, #d4d4d4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #0a0a0a;
+            font-weight: 700;
+            font-size: 1.2em;
+            flex-shrink: 0;
+        }
+        
+        .author-info h4 {
+            color: #fff;
+            font-size: 1.15em;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .author-info p {
+            color: rgba(255,255,255,0.6);
+            font-size: 0.95em;
+        }
+        
+        /* Offer Section */
+        .offer-section {
+            padding: 140px 20px;
+            background: #fafaf9;
+            text-align: center;
+            position: relative;
+        }
+        
+        .offer-section h2 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: 80px;
+            font-weight: 800;
+            color: #0a0a0a;
+            letter-spacing: -0.03em;
+        }
+        
+        .price-box {
+            background: #fff;
+            color: #0a0a0a;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 70px 60px;
+            border-radius: 32px;
+            box-shadow: 0 40px 120px rgba(0,0,0,0.15);
+            border: 1px solid #e5e5e5;
+        }
+        
+        .price-label {
+            font-size: 0.95em;
+            color: #737373;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-weight: 600;
+        }
+        
+        .new-price {
+            font-size: 5.5em;
+            font-weight: 900;
+            color: #0a0a0a;
+            margin: 30px 0;
+            letter-spacing: -0.04em;
+        }
+        
+        .price-note {
+            font-size: 1.05em;
+            color: #737373;
+            margin-bottom: 50px;
+            font-weight: 400;
+        }
+        
+        .offer-features {
+            text-align: left;
+            margin: 50px 0;
+            list-style: none;
+        }
+        
+        .offer-features li {
+            padding: 18px 0;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 1.05em;
+            color: #0a0a0a;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .offer-features li:last-child {
+            border-bottom: none;
+        }
+        
+        .offer-features li::before {
+            content: '✓';
+            font-size: 1.2em;
+            color: #0a0a0a;
+            font-weight: 700;
+        }
+        
+        .offer-section .cta-button {
+            width: 100%;
+            margin-top: 40px;
+            padding: 24px 50px;
+            font-size: 1.15em;
+        }
+        
+        .guarantee {
+            background: #0a0a0a;
+            color: white;
+            padding: 32px;
+            border-radius: 20px;
+            margin-top: 50px;
+            font-weight: 500;
+            line-height: 1.7;
+            font-size: 1.05em;
+        }
+        
+        /* FAQ Section */
+        .faq-section {
+            padding: 140px 20px;
+            background: #fff;
+        }
+        
+        .faq-section h2 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            color: #0a0a0a;
+            text-align: center;
+            margin-bottom: 100px;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+        }
+        
+        .faq-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .faq-item {
+            background: #fafaf9;
+            margin-bottom: 16px;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid #e5e5e5;
+            transition: all 0.3s ease;
+        }
+        
+        .faq-item:hover {
+            border-color: #d4d4d4;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+        
+        .faq-question {
+            padding: 30px 35px;
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #0a0a0a;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+            user-select: none;
+            letter-spacing: -0.01em;
+        }
+        
+        .faq-question:hover {
+            background: #fff;
+        }
+        
+        .faq-toggle {
+            font-size: 1.8em;
+            color: #0a0a0a;
+            font-weight: 300;
+            transition: transform 0.3s ease;
+            line-height: 1;
+        }
+        
+        .faq-item.active .faq-toggle {
+            transform: rotate(45deg);
+        }
+        
+        .faq-answer {
+            color: #525252;
+            font-size: 1.05em;
+            line-height: 1.8;
+            padding: 0 35px;
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: all 0.4s ease;
+        }
+        
+        .faq-answer.active {
+            max-height: 1000px;
+            padding: 0 35px 30px 35px;
+            opacity: 1;
+        }
+        
+        /* Final CTA */
+        .final-cta {
+            padding: 140px 20px;
+            background: #0a0a0a;
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .final-cta::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, rgba(255,255,255,0.03) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        
+        .final-quote {
+            font-size: clamp(1.5rem, 3vw, 2.2rem);
+            font-style: normal;
+            max-width: 900px;
+            margin: 0 auto 60px;
+            line-height: 1.6;
+            font-weight: 400;
+            position: relative;
+            z-index: 1;
+            opacity: 0.95;
+        }
+        
+        .final-cta .cta-button {
+            margin-top: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Footer */
+        .footer {
+            background: #0a0a0a;
+            color: #737373;
+            padding: 60px 20px;
+            text-align: center;
+            font-size: 0.95em;
+            line-height: 1.8;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .footer p {
+            margin-bottom: 8px;
+        }
+        
+        .footer a {
+            color: #fff;
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+        
+        .footer a:hover {
+            opacity: 0.7;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 968px) {
+            .book-grid {
+                grid-template-columns: 1fr;
+                gap: 60px;
+                text-align: center;
+            }
+            
+            .book-details {
+                order: 2;
+            }
+            
+            .book-mockup {
+                order: 1;
+            }
+            
+            .features-list li {
+                justify-content: center;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero {
+                padding: 80px 20px 100px;
+                min-height: 80vh;
+            }
+            
+            .hero-content {
+                gap: 24px;
+            }
+            
+            .cta-button {
+                padding: 18px 40px;
+                font-size: 1.05em;
+            }
+            
+            .problem-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .chapter-item {
+                grid-template-columns: 60px 1fr;
+                gap: 24px;
+            }
+            
+            .chapter-item:not(:last-child)::after {
+                left: 30px;
+            }
+            
+            .chapter-number {
+                width: 60px;
+                height: 60px;
+                font-size: 1.3em;
+            }
+            
+            .chapter-content {
+                padding: 28px 32px;
+            }
+            
+            .benefits-grid,
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .price-box {
+                padding: 50px 40px;
+            }
+            
+            .new-price {
+                font-size: 4em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero" aria-label="Hero: Educa con calma">
+        <video class="hero-video" autoplay muted loop playsinline preload="metadata" poster="madre_hijo.jpg" aria-hidden="true">
+            <source src="madre_hijo.mp4" type="video/mp4">
+        </video>
+
+        <div class="hero-overlay" aria-hidden="true"></div>
+
+        <div class="hero-content container">
+            <h1>¿Y si pudieras educar sin gritar?</h1>
+            <p>La guía que transforma tus noches de culpa en conexión real. Para madres y padres cansados de repetir lo que juraron nunca hacer.</p>
+            <a href="#oferta" class="cta-button">Quiero cambiar esto ahora</a>
+        </div>
+    </section>
+
+    <!-- Problem Section -->
+    <section class="problem-section">
+        <div class="container">
+            <h2>Reconoces esta escena</h2>
+            <div class="problem-grid">
+                <div class="problem-card">
+                    <h3>Repites. Tu voz sube. Explotas.</h3>
+                    <p>Le pides que recoja los juguetes. Una vez. Dos. Diez. Tu tono cambia
+                </div>
+                <div class="problem-card">
+                    <h3>La culpa llega cada noche</h3>
+                    <p>Cuando finalmente se duerme, te sientas en silencio. "Hoy juré que sería diferente". Pero no lo fue. Y mañana temes que vuelva a pasar.</p>
+                </div>
+                <div class="problem-card">
+                    <h3>Estás repitiendo tu infancia</h3>
+                    <p>Escuchas tu voz y es la de tu madre. Ves tus gestos y son los de tu padre. Juraste que nunca harías esto. Y aquí estás.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Book Presentation -->
+    <section class="book-presentation">
+        <div class="container">
+            <div class="book-grid">
+                <div class="book-mockup">
+                    <img src="Mockup.png" alt="Portada: Dile Adiós a los Castigos y Gritos - Guía práctica" class="book-image" loading="lazy">
+                </div>
+                <div class="book-details">
+                    <h3>Lo que ningún taller te enseñó</h3>
+                    <ul class="features-list">
+                        <li>Frases exactas que reemplazan "porque yo lo digo"</li>
+                        <li>Qué hacer cuando tu hijo te ignora (y por qué funciona)</li>
+                        <li>12 rutinas que eliminan el 80% de las peleas matutinas</li>
+                        <li>Casos prácticos de familias que dejaron de gritar en 2 semanas</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Chapters Section -->
+    <section class="chapters-section">
+        <div class="container">
+            <h2>Contenido del libro</h2>
+            <div class="chapters-timeline">
+                <div class="chapter-item">
+                    <div class="chapter-number">1</div>
+                    <div class="chapter-content">
+                        <h4>Introducción</h4>
+                        <p>Educar sin miedo ni culpa</p>
+                    </div>
+                </div>
+                <div class="chapter-item">
+                    <div class="chapter-number">2</div>
+                    <div class="chapter-content">
+                        <h4>Patrones heredados</h4>
+                        <p>Por qué educamos como nos educaron</p>
+                    </div>
+                </div>
+                <div class="chapter-item">
+                    <div class="chapter-number">3</div>
+                    <div class="chapter-content">
+                        <h4>El impacto de los castigos</h4>
+                        <p>Qué ocurre cuando usamos castigos y gritos</p>
+                    </div>
+                </div>
+                <div class="chapter-item">
+                    <div class="chapter-number">4</div>
+                    <div class="chapter-content">
+                        <h4>Estrategias eficaces</h4>
+                        <p>Cómo sustituir gritos por acción efectiva</p>
+                    </div>
+                </div>
+                <div class="chapter-item">
+                    <div class="chapter-number">5</div>
+                    <div class="chapter-content">
+                        <h4>Firmeza con empatía</h4>
+                        <p>Cómo ser firme sin ser autoritario</p>
+                    </div>
+                </div>
+                <div class="chapter-item">
+                    <div class="chapter-number">6</div>
+                    <div class="chapter-content">
+                        <h4>Conexión real</h4>
+                        <p>Construir cooperación genuina</p>
+                    </div>
+                </div>
+                <div class="chapter-item">
+                    <div class="chapter-number">7</div>
+                    <div class="chapter-content">
+                        <h4>Rutinas efectivas</h4>
+                        <p>Prevenir conflictos antes de que inicien</p>
+                    </div>
+                </div>
+                <div class="chapter-item">
+                    <div class="chapter-number">8</div>
+                    <div class="chapter-content">
+                        <h4>Casos reales</h4>
+                        <p>Testimonios de familias que cambiaron</p>
+                    </div>
+                </div>
+                <div class="chapter-item">
+                    <div class="chapter-number">9</div>
+                    <div class="chapter-content">
+                        <h4>Tu plan personal</h4>
+                        <p>Compromiso y seguimiento de cambio</p>
+                    </div>
+                </div>
+                <div class="chapter-item">
+                    <div class="chapter-number">10</div>
+                    <div class="chapter-content">
+                        <h4>Recursos imprimibles</h4>
+                        <p>Plantillas, rutinas y fichas descargables</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="benefits-section">
+        <div class="container">
+            <h2>Lo que cambiará en tu casa</h2>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <h3>Dirás "no" sin levantar la voz</h3>
+                    <p>Aprenderás a ser firme sin sentirte autoritaria. Tu hijo entenderá los límites sin miedo.</p>
+                </div>
+                <div class="benefit-card">
+                    <h3>Cooperación real, no obediencia ciega</h3>
+                    <p>Dejará de hacer las cosas "porque sí". Empezará a colaborar porque entiende por qué importa.</p>
+                </div>
+                <div class="benefit-card">
+                    <h3>Sabrás qué hacer cuando estalle</h3>
+                    <p>Los berrinches dejarán de desarmarte. Tendrás un plan claro para cada situación difícil.</p>
+                </div>
+                <div class="benefit-card">
+                    <h3>Menos repetir, más acción</h3>
+                    <p>Terminarás con el ciclo de pedir 10 veces lo mismo. Comunicación directa que funciona.</p>
+                </div>
+                <div class="benefit-card">
+                    <h3>Noches sin culpa</h3>
+                    <p>Cuando cierre los ojos, dormirás tranquila. Porque sabrás que hoy lo hiciste diferente.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials-section">
+        <div class="container">
+            <h2>Lo que dicen las familias</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <p class="testimonial-quote">"En 2 semanas mi hijo comenzó a seguir las rutinas sin gritos. Terminé el día tranquila y con energía para disfrutar la noche con él. Esta guía transformó nuestra dinámica familiar."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">ML</div>
+                        <div class="author-info">
+                            <h4>María López</h4>
+                            <p>Madre de Lucas, 6 años</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-quote">"Las estrategias son claras y fáciles de aplicar. Ya no siento que estoy repitiendo los errores de mis padres. Ahora educo desde el respeto y la conexión."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">CR</div>
+                        <div class="author-info">
+                            <h4>Carlos Ramírez</h4>
+                            <p>Padre de Sofía, 4 años</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-quote">"Probé muchos métodos antes. Este libro me dio herramientas concretas que funcionan. Los berrinches disminuyeron y nuestra relación mejoró notablemente."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">AP</div>
+                        <div class="author-info">
+                            <h4>Ana Patricia</h4>
+                            <p>Madre de Diego, 8 años</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Offer Section -->
+    <section class="offer-section" id="oferta">
+        <div class="container">
+            <h2>Empieza tu cambio hoy</h2>
+            <div class="price-box">
+                <p class="price-label">Inversión única</p>
+                <div class="new-price">$10</div>
+                <p class="price-note">Descarga instantánea. Empieza en 5 minutos.</p>
+                
+                <ul class="offer-features">
+                    <li>Guía completa en PDF (leer en cualquier dispositivo)</li>
+                    <li>Plantillas listas para imprimir y pegar en la nevera</li>
+                    <li>Guiones palabra por palabra para situaciones reales</li>
+                    <li>Acceso permanente para consultar cuando lo necesites</li>
+                </ul>
+                
+                <a href="https://pay.hotmart.com/J102735706P" class="cta-button">Sí, lo necesito ahora</a>
+                
+                <div class="guarantee">
+                    <strong>Garantía sin riesgo:</strong> Lee el libro durante 7 días. Si no ves ningún cambio en tu forma de comunicarte con tu hijo, te devolvemos cada centavo. Sin preguntas.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="container">
+            <h2>Preguntas frecuentes</h2>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question" role="button" tabindex="0" aria-expanded="false">
+                        ¿A qué edad se aplica este método?
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer" aria-hidden="true">
+                        Idealmente entre los 2 y 10 años, pero las estrategias también funcionan con niños mayores si se adaptan los guiones
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" role="button" tabindex="0" aria-expanded="false">
+                        ¿Necesito experiencia previa o conocimientos de psicología?
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer" aria-hidden="true">
+                        No. El ebook está diseñado para padres reales con poco tiempo, con pasos simples, ejemplos y guiones listos para aplicar.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" role="button" tabindex="0" aria-expanded="false">
+                        ¿Incluye material imprimible o solo teoría?
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer" aria-hidden="true">
+                        Incluye material imprimible práctico: Láminas de rutinas, fichas de seguimiento, contrato familiar, tarjetas de guiones y checklist diaria.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" role="button" tabindex="0" aria-expanded="false">
+                        ¿Sirve si ya probé otros métodos o talleres?
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer" aria-hidden="true">
+                        Sí. Este enfoque no repite teorías genéricas: se centra en acciones concretas que reemplazan el grito por intervención calmada y eficaz.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" role="button" tabindex="0" aria-expanded="false">
+                        ¿Qué resultados puedo esperar y en cuánto tiempo?
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer" aria-hidden="true">
+                        La mayoría de familias nota mejoras visibles en 7 a 14 días, como menos discusiones, cooperación más rápida y un ambiente más tranquilo.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" role="button" tabindex="0" aria-expanded="false">
+                        ¿Puedo usarlo si mi pareja no sigue el mismo enfoque?
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer" aria-hidden="true">
+                        Sí. Se recomienda que uno de los adultos inicie; los cambios positivos tienden a contagiar la dinámica familiar.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" role="button" tabindex="0" aria-expanded="false">
+                        ¿En qué formato recibiré el ebook?
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer" aria-hidden="true">
+                        Formato PDF descargable e imprimible, con acceso inmediato tras la compra.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" role="button" tabindex="0" aria-expanded="false">
+                        ¿Hay garantía de satisfacción?
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer" aria-hidden="true">
+                        Sí. Si el contenido no cumple tus expectativas, puedes solicitar una devolución dentro de un plazo de 7 días.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="final-cta">
+        <div class="container">
+            <p class="final-quote">La crianza respetuosa no es ser perfecta. Es decidir cada día que hay una forma mejor. Y empezar de nuevo cuando fallas.</p>
+            <a href="#oferta" class="cta-button">Quiero empezar hoy</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Dile Adiós a los Castigos y Gritos</p> 
+            <p>Todos los derechos reservados</p>
+        </div>
+    </footer>
+
+    <script>
+document.querySelectorAll('.faq-question').forEach(q => {
+  q.addEventListener('click', toggleFaq);
+  q.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      toggleFaq.call(q);
+    }
+  });
+});
+
+function toggleFaq() {
+  const item = this.closest('.faq-item');
+  const answer = item.querySelector('.faq-answer');
+  const toggleIcon = item.querySelector('.faq-toggle');
+  const expanded = this.getAttribute('aria-expanded') === 'true';
+
+  if (expanded) {
+    item.classList.remove('active');
+    this.setAttribute('aria-expanded', 'false');
+    answer.classList.remove('active');
+    answer.setAttribute('aria-hidden', 'true');
+    toggleIcon.textContent = '+';
+  } else {
+    item.classList.add('active');
+    this.setAttribute('aria-expanded', 'true');
+    answer.classList.add('active');
+    answer.setAttribute('aria-hidden', 'false');
+    toggleIcon.textContent = '−';
+  }
+}
+</script>
+</body>
+</html>
