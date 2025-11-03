@@ -1248,7 +1248,16 @@ function toggleFaq() {
     toggleIcon.textContent = '−';
   }
 }
+          document.addEventListener('DOMContentLoaded', function() {
+    var boton = document.querySelector('.cta-button');
+    if (boton) {
+      boton.addEventListener('click', function() {
+        fbq('track', 'InitiateCheckout');
+      });
+    }
+  });
 </script>
 </body>
 
 </html>
+
